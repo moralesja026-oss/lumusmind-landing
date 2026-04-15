@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Lumus — Illuminate Your Mind</title>
+<meta name="description" content="Lumus Mind — advanced IV ketamine therapy in Corona, CA for treatment-resistant depression, anxiety, and PTSD. Relief in days, not months." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+  :root{
+    --midnight:#0A0B1A;
+    --midnight-2:#12132B;
+    --deep-violet:#1B1145;
+    --lavender:#F1EDF9;
+    --lavender-warm:#EDE6FA;
+    --violet:#8B5CFF;
+    --violet-soft:#B59AFF;
+    --violet-deep:#6B3FE0;
+    --cyan:#4FD8FF;
+    --cyan-soft:#8EE8FF;
+    --offwhite:#FAFAF7;
+    --ink:#0D0D0D;
+    --max:1240px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--midnight);color:var(--offwhite);font-family:"DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip}
+  body{font-size:17px;line-height:1.65}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+  ::selection{background:var(--violet);color:#fff}
+
+  .display{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:400;letter-spacing:-.025em;line-height:1.02}
+  .mono{font-family:"Michroma",monospace;letter-spacing:.12em;text-transform:uppercase}
+  .grad-text{background:linear-gradient(100deg, var(--cyan) 0%, var(--violet) 55%, var(--violet-deep) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .eyebrow{display:inline-block;font-family:"Michroma",monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.8;margin-bottom:22px;position:relative;padding-left:38px}
+  .eyebrow::before{content:"";position:absolute;left:0;top:50%;width:28px;height:1px;background:currentColor;opacity:.6}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+  @media (min-width:900px){.wrap{padding:0 56px}}
+
+  section{position:relative;padding:120px 0}
+  @media (min-width:900px){section{padding:160px 0}}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:17px 30px;border-radius:999px;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;transition:transform .3s ease, background .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease;white-space:nowrap;font-family:"DM Sans"}
+  .btn:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+  /* Animated gradient colors — registered via @property for smooth interpolation */
+  @property --cta-c1 { syntax: '<color>'; inherits: false; initial-value: #8B5CFF; }
+  @property --cta-c2 { syntax: '<color>'; inherits: false; initial-value: #6B3FE0; }
+  .btn-violet{background:linear-gradient(100deg, var(--cta-c1) 0%, var(--cta-c2) 100%);color:#fff;position:relative;z-index:1;animation:ctaPulse 8s ease-in-out infinite}
+  .btn-violet:hover{transform:translateY(-2px);animation-play-state:paused;background:linear-gradient(100deg, var(--cyan) 0%, var(--violet) 100%);box-shadow:0 18px 44px -8px rgba(79,216,255,.6),0 0 56px -4px rgba(79,216,255,.5)}
+
+  @keyframes ctaPulse {
+    0%, 100% {
+      --cta-c1: #8B5CFF;
+      --cta-c2: #6B3FE0;
+      box-shadow: 0 14px 34px -8px rgba(139,92,255,.55), 0 0 28px -6px rgba(139,92,255,.35);
+    }
+    50% {
+      --cta-c1: #4FD8FF;
+      --cta-c2: #8B5CFF;
+      box-shadow: 0 14px 34px -8px rgba(79,216,255,.55), 0 0 52px -6px rgba(79,216,255,.6);
+    }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .btn-violet{animation:none;background:linear-gradient(100deg, var(--violet) 0%, var(--violet-deep) 100%);box-shadow:0 10px 30px -10px rgba(139,92,255,.5)}
+  }
+  .btn-ghost{border:1px solid rgba(250,250,247,.35);color:var(--offwhite)}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+  /* Floating CTA */
+  .floating-cta{position:fixed;right:22px;bottom:22px;z-index:60;opacity:0;pointer-events:none;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease}
+  .floating-cta.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+  @media (max-width:700px){.floating-cta{right:14px;bottom:14px;padding:14px 22px;font-size:12px}}
+
+  /* Nav */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:difference}
+  .nav .mark{display:inline-flex;align-items:center}
+  .nav .mark img{width:40px;height:40px;object-fit:contain}
+  .nav ul{display:none;gap:36px;list-style:none;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
+  @media (min-width:900px){.nav{padding:28px 56px}.nav ul{display:flex}}
+
+  /* ============ HERO ============ */
+  .hero{min-height:100vh;padding:96px 0 40px;display:flex;align-items:center;overflow:hidden;background:radial-gradient(ellipse at 80% 40%, #1a1240 0%, #0A0B1A 55%, #05060f 100%);position:relative}
+  /* Neuron canvas — fixed full-viewport, hovers over text but behind images */
+  #heroCanvas{position:fixed;inset:0;width:100vw!important;height:100vh!important;z-index:40;pointer-events:none}
+
+  /* Elements that contain images render ABOVE the neuron canvas */
+  .brain-logo,
+  .hero-visual::before,
+  .exp-photo,
+  .team,
+  .team-photo,
+  .g-reviews,
+  .quote .g-mark,
+  .nav .mark img,
+  footer .mark img{position:relative;z-index:50}
+  .hero .grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr;gap:60px;align-items:center;width:100%;max-width:var(--max);margin:0 auto;padding:0 28px}
+  @media (min-width:900px){.hero .grid{grid-template-columns:1.05fr 0.95fr;padding:0 56px;gap:40px}}
+  .hero .inner{position:relative;z-index:2;text-align:left;max-width:640px}
+  .hero .kicker{display:inline-flex;align-items:center;gap:10px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.4em;color:var(--cyan);margin-bottom:22px;padding:8px 16px 8px 14px;border:1px solid rgba(79,216,255,.3);border-radius:999px;background:rgba(79,216,255,.05);backdrop-filter:blur(8px);opacity:0}
+  .hero .kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulseDot 2.2s ease-in-out infinite}
+  @keyframes pulseDot{0%,100%{opacity:.4}50%{opacity:1}}
+  .hero h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:300;line-height:.98;letter-spacing:-.03em;font-size:clamp(2.6rem,6.8vw,6rem);color:#fff}
+  .hero h1 .grad-text{font-weight:500}
+  .hero .sub{margin:22px 0 0;max-width:560px;font-size:clamp(15.5px,1.2vw,17.5px);color:rgba(250,250,247,.78);opacity:0;line-height:1.55}
+  .hero .sub strong{color:#fff;font-weight:500}
+  .hero .ctas{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-start;opacity:0}
+
+  /* Hero visual — right column with brain logo (above neuron canvas) */
+  .hero-visual{position:relative;z-index:50;display:flex;align-items:center;justify-content:center;min-height:min(520px,70vh);pointer-events:none}
+  .hero-visual::before{content:"";position:absolute;width:82%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at center, rgba(200,175,255,.55), rgba(139,92,255,.32) 28%, rgba(79,216,255,.12) 55%, transparent 72%);filter:blur(40px);z-index:0;pointer-events:none;animation:brainGlow 6s ease-in-out infinite alternate}
+  @keyframes brainGlow{
+    0%  {opacity:.75;transform:scale(1)}
+    100%{opacity:1;transform:scale(1.08)}
+  }
+  /* Brain logo (full lockup with LUMUS wordmark) */
+  .brain-logo{position:relative;z-index:50;width:min(78%, 460px);aspect-ratio:1;background:url('logos/logo-brain.png') center/contain no-repeat;animation:brainFloat 7s ease-in-out infinite;opacity:0}
+  @keyframes brainFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .brain-ring{position:absolute;inset:8%;z-index:1;border:1px solid rgba(79,216,255,.15);border-radius:50%;animation:ringSpin 40s linear infinite}
+  .brain-ring.two{inset:2%;border-color:rgba(139,92,255,.1);animation-duration:60s;animation-direction:reverse}
+  .brain-ring::before{content:"";position:absolute;top:-3px;left:50%;width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan);transform:translateX(-50%)}
+  .brain-ring.two::before{background:var(--violet);box-shadow:0 0 16px var(--violet);top:auto;bottom:-3px}
+  @keyframes ringSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  /* Vertical index label on the left edge */
+  .hero-index{position:absolute;left:22px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;font-family:"Michroma",monospace;font-size:9px;letter-spacing:.4em;color:rgba(250,250,247,.45);text-transform:uppercase;z-index:3;white-space:nowrap;opacity:0}
+  .hero-index::before{content:"";display:inline-block;width:40px;height:1px;background:var(--cyan);margin-right:14px;vertical-align:middle}
+  @media (max-width:900px){.hero-index{display:none}}
+
+  /* Top-right meta */
+  .hero-meta{position:absolute;top:96px;right:56px;z-index:3;font-family:"Michroma",monospace;font-size:9px;letter-spacing:.3em;color:rgba(250,250,247,.45);text-transform:uppercase;text-align:right;opacity:0;line-height:2}
+  .hero-meta strong{color:var(--cyan);font-weight:400}
+  @media (max-width:900px){.hero-meta{display:none}}
+
+  @media (prefers-reduced-motion:reduce){
+    .brain-logo,.brain-ring,.hero .kicker::before,.brain-logo::after{animation:none!important}
+  }
+
+  /* Mobile optimization lives at the end of this stylesheet so it overrides desktop rules */
+  .hero-proof{margin-top:40px;display:flex;flex-wrap:wrap;justify-content:flex-start;gap:14px 40px;opacity:0}
+  .hero-proof .proof-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:120px;padding:0 14px;border-left:1px solid rgba(79,216,255,.25)}
+  .hero-proof .proof-item:first-child{border-left:0}
+  @media (max-width:640px){.hero-proof .proof-item{border-left:0;padding:0}.hero-proof{gap:20px 28px;margin-top:44px}}
+  .hero-proof strong{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:clamp(20px,2.2vw,26px);color:#fff;letter-spacing:-.01em}
+  .hero-proof span{font-family:"Michroma",monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,250,247,.55);white-space:nowrap}
+  .hero .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:"Michroma",monospace;font-size:10px;letter-spacing:.35em;color:rgba(250,250,247,.5);text-transform:uppercase;z-index:2;opacity:0}
+  .hero .scroll-hint::after{content:"";display:block;width:1px;height:44px;background:linear-gradient(var(--cyan),transparent);margin:14px auto 0;animation:scrollPulse 2.4s ease-in-out infinite}
+  @keyframes scrollPulse{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* ============ MARQUEE ============ */
+  .marquee{background:var(--midnight);color:#fff;padding:28px 0;border-top:1px solid rgba(139,92,255,.2);border-bottom:1px solid rgba(139,92,255,.2);overflow:hidden;white-space:nowrap;background:linear-gradient(90deg, var(--midnight) 0%, #130e2e 50%, var(--midnight) 100%)}
+  .marquee-track{display:inline-flex;gap:56px;animation:marquee 42s linear infinite;font-family:"Michroma",monospace;font-size:clamp(13px,1.5vw,16px);letter-spacing:.3em;will-change:transform}
+  .marquee-track span{display:inline-block}
+  .marquee-track .dot{color:var(--cyan)}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ============ SHIFT (lavender) ============ */
+  .shift{background:var(--lavender);color:var(--ink)}
+  .shift h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5.3vw,4.4rem);line-height:1.02;letter-spacing:-.025em;max-width:18ch;margin-bottom:56px}
+  .shift h2 em{font-style:normal;font-weight:500}
+  .stats{display:grid;grid-template-columns:1fr;gap:24px;margin:56px 0 64px;border-top:1px solid rgba(27,17,69,.15);padding-top:44px}
+  @media (min-width:760px){.stats{grid-template-columns:repeat(3,1fr);gap:56px}}
+  .stat .num{font-family:"Space Grotesk",system-ui;font-weight:300;font-size:clamp(2.6rem,5vw,4rem);line-height:1;margin-bottom:10px;color:var(--deep-violet)}
+  .stat .num strong{font-weight:500}
+  .stat .lbl{font-family:"Michroma",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.65}
+  .shift .prose{max-width:620px;font-size:clamp(16px,1.3vw,18px);color:rgba(13,13,13,.78)}
+  .shift .prose p+p{margin-top:20px}
+
+  /* ============ SERVICES (deep-violet) ============ */
+  .services{background:var(--deep-violet);color:var(--offwhite);overflow:hidden;position:relative}
+  .services::before{content:"";position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle, rgba(139,92,255,.25), transparent 65%);top:-200px;right:-200px;pointer-events:none}
+  .services::after{content:"";position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle, rgba(79,216,255,.18), transparent 65%);bottom:-180px;left:-150px;pointer-events:none}
+  .services .wrap{position:relative;z-index:1}
+  .services .head{display:flex;flex-direction:column;gap:18px;margin-bottom:70px;max-width:900px}
+  .services h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em}
+  .services .eyebrow{color:var(--cyan)}
+  .cards{display:grid;grid-template-columns:1fr;gap:22px}
+  @media (min-width:900px){.cards{grid-template-columns:repeat(3,1fr);gap:26px}}
+  .card{background:#FAFAF7;color:var(--ink);border-radius:16px;padding:44px 34px 40px;position:relative;overflow:hidden;transition:transform .4s ease, box-shadow .4s ease}
+  .card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--violet), var(--violet-deep));z-index:3}
+  .card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -25px rgba(0,0,0,.5)}
+  .card .photo{margin:-44px -34px 30px;aspect-ratio:4/3;overflow:hidden;position:relative;background:var(--midnight)}
+  .card .photo img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .card:hover .photo img{transform:scale(1.04)}
+  .card .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(250,250,247,.9))}
+  .card .num{font-family:"Michroma",monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--violet);margin-bottom:20px}
+  .card h3{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:26px;letter-spacing:-.015em;line-height:1.15;margin-bottom:14px}
+  .card p{font-size:15.5px;color:rgba(13,13,13,.7);margin-bottom:26px}
+  .card .more{font-family:"Michroma",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--deep-violet);border-bottom:1px solid var(--violet);padding-bottom:3px;display:inline-block}
+
+  /* ============ EXPERIENCE (violet gradient) ============ */
+  .experience{background:linear-gradient(160deg, #2A1E6B 0%, #4A2BB5 50%, #6B3FE0 100%);color:#fff;position:relative}
+  .experience::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%, rgba(79,216,255,.18), transparent 55%);pointer-events:none}
+  .experience .wrap{position:relative}
+  .experience .head{max-width:900px;margin-bottom:80px}
+  .experience h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em}
+  .experience h2 em{font-style:normal;font-weight:500;color:var(--cyan-soft)}
+  .experience .eyebrow{color:var(--cyan-soft)}
+  .exp-split{display:grid;grid-template-columns:1fr;gap:40px;align-items:start}
+  @media (min-width:1000px){.exp-split{grid-template-columns:0.9fr 1.1fr;gap:80px}}
+  .exp-photo-col{min-width:0;z-index:50;position:relative}
+  @media (min-width:1000px){.exp-photo-col{position:sticky;top:120px;align-self:start;z-index:50}}
+  .exp-photo{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 80px -40px rgba(0,0,0,.5)}
+  .exp-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .exp-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(79,216,255,0.12),transparent 40%,rgba(27,17,69,.4));mix-blend-mode:multiply}
+  .exp-photo .tag{position:absolute;left:22px;bottom:22px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:rgba(10,11,26,.55);backdrop-filter:blur(8px);padding:11px 18px;border-radius:999px;border:1px solid rgba(79,216,255,.3)}
+  /* Sticky-stacking steps: each card pins and is covered by the next */
+  .steps{display:flex;flex-direction:column;gap:0;position:relative}
+  .step{position:sticky;top:100px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;padding:48px 36px;min-height:64vh;border-radius:22px;background:linear-gradient(155deg, #2A1E6B 0%, #4A2BB5 55%, #7A4BE8 100%);box-shadow:0 -24px 60px -30px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);overflow:hidden}
+  .step::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--violet), var(--violet-soft));opacity:.9;z-index:2}
+  .step::after{content:"";position:absolute;right:-20%;top:-30%;width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle, rgba(79,216,255,.18), transparent 60%);filter:blur(40px);pointer-events:none}
+  .step .n{font-family:"Space Grotesk",system-ui;font-weight:300;font-size:clamp(3.4rem,8vw,7rem);line-height:.85;color:var(--cyan-soft);letter-spacing:-.04em;position:relative;z-index:1}
+  .step .txt{position:relative;z-index:1}
+  .step .txt h3{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:clamp(1.6rem,3vw,2.6rem);letter-spacing:-.015em;margin-bottom:16px;line-height:1.1}
+  .step .txt p{max-width:52ch;color:rgba(255,255,255,.82);font-size:16.5px;line-height:1.7}
+  .step:nth-child(1){z-index:1}
+  .step:nth-child(2){z-index:2}
+  .step:nth-child(3){z-index:3}
+  .step:nth-child(4){z-index:4}
+  @media (min-width:900px){.step{grid-template-columns:220px 1fr;gap:56px;padding:72px 60px;min-height:62vh}}
+
+  /* ============ TRUST (warm offwhite) ============ */
+  .trust{background:var(--lavender-warm);color:var(--ink)}
+  .trust .head{max-width:780px;margin-bottom:70px}
+  .trust h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em}
+  .trust h2 em{font-weight:500;font-style:normal;background:linear-gradient(100deg, var(--violet), var(--violet-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .team{display:grid;grid-template-columns:1fr;gap:36px;align-items:center;margin-bottom:80px;padding:32px;background:#fff;border-radius:20px;box-shadow:0 30px 70px -40px rgba(27,17,69,.25);position:relative;overflow:hidden}
+  .team::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--violet), var(--violet-deep))}
+  @media (min-width:900px){.team{grid-template-columns:0.9fr 1.1fr;gap:56px;padding:36px}}
+  .team-photo{aspect-ratio:4/5;border-radius:14px;overflow:hidden;position:relative}
+  .team-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .team-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(27,17,69,.2))}
+  .team-copy .eyebrow{color:var(--deep-violet)}
+  .team-copy h3{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(1.8rem,3.2vw,2.4rem);line-height:1.1;margin-bottom:18px;letter-spacing:-.02em}
+  .team-copy p{color:rgba(13,13,13,.72);font-size:16px;max-width:46ch}
+  .team-copy .sig{margin-top:22px;display:inline-flex;align-items:center;gap:12px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--deep-violet)}
+  .team-copy .sig::before{content:"";width:36px;height:1px;background:var(--violet)}
+  /* Google reviews badge */
+  .g-reviews{display:flex;align-items:center;gap:18px;background:#fff;border-radius:14px;padding:18px 24px;box-shadow:0 18px 40px -30px rgba(27,17,69,.2);border:1px solid rgba(139,92,255,.08);margin-bottom:26px;flex-wrap:wrap;transition:transform .3s ease, box-shadow .3s ease}
+  .g-reviews:hover{transform:translateY(-2px);box-shadow:0 24px 50px -25px rgba(27,17,69,.28)}
+  .g-reviews .g-logo{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:50%;box-shadow:0 4px 12px -4px rgba(0,0,0,.15)}
+  .g-reviews .g-logo svg{width:26px;height:26px;display:block}
+  .g-reviews .g-body{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+  .g-reviews .g-rating{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk",system-ui;font-weight:500;font-size:18px;color:var(--ink);letter-spacing:-.01em}
+  .g-reviews .g-stars{letter-spacing:.05em;font-size:17px}
+  .g-reviews .g-stars span{background:linear-gradient(90deg,#FBBC05,#F9A825);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .g-reviews .g-caption{font-family:"Michroma",monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(13,13,13,.55)}
+  .g-reviews .g-link{margin-left:auto;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--deep-violet);border-bottom:1px solid var(--violet);padding-bottom:3px;white-space:nowrap}
+
+  .quotes{display:grid;grid-template-columns:1fr;gap:22px}
+  @media (min-width:900px){.quotes{grid-template-columns:1fr 1fr;gap:26px}}
+  /* Wall of reviews — bento grid variant */
+  .quotes.wall{grid-template-columns:1fr;gap:14px;grid-auto-flow:dense}
+  @media (min-width:720px){.quotes.wall{grid-template-columns:repeat(2,1fr);gap:16px}}
+  @media (min-width:1100px){.quotes.wall{grid-template-columns:repeat(3,1fr);gap:18px}}
+  .quotes.wall .quote{padding:32px 28px;border-radius:14px}
+  .quotes.wall .quote p{font-size:clamp(16px,1.2vw,18px);max-width:none;line-height:1.45}
+  .quotes.wall .mk{font-size:46px;top:22px;right:22px}
+  @media (min-width:1100px){
+    .quotes.wall .q-tall{grid-row:span 2}
+    .quotes.wall .q-wide{grid-column:span 2}
+    .quotes.wall .q-small p{font-size:15.5px}
+  }
+  .quotes.wall .q-tall p{font-size:clamp(19px,1.4vw,22px)}
+  .quotes.wall .q-wide p{font-size:clamp(17px,1.3vw,20px)}
+  .quote .g-mark{position:absolute;bottom:22px;right:24px;width:20px;height:20px;opacity:.85}
+  .quote .g-mark svg{width:100%;height:100%;display:block}
+  .quote{background:#fff;border-radius:16px;padding:44px 36px;box-shadow:0 20px 50px -30px rgba(27,17,69,.25);position:relative;border:1px solid rgba(139,92,255,.1)}
+  .quote .mk{font-family:"Space Grotesk",system-ui;font-weight:700;font-size:60px;line-height:.6;position:absolute;top:32px;right:28px;opacity:.9;background:linear-gradient(135deg, var(--cyan), var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .quote p{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(19px,1.5vw,22px);line-height:1.4;color:var(--ink);max-width:32ch;letter-spacing:-.01em}
+  .quote .meta{margin-top:24px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--deep-violet)}
+  .badges{margin-top:64px;display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:flex-start;border-top:1px solid rgba(27,17,69,.15);padding-top:38px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(13,13,13,.62)}
+  .badges span{display:inline-flex;align-items:center;gap:10px}
+  .badges span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--violet)}
+
+  /* ============ CLOSING (midnight) ============ */
+  .closing{background:radial-gradient(ellipse at 50% 40%, #1a1240 0%, #0A0B1A 70%);color:var(--offwhite);text-align:center;padding:160px 0 120px;position:relative;overflow:hidden}
+  .closing::before,.closing::after{content:"";position:absolute;border-radius:50%;filter:blur(140px);opacity:.4}
+  .closing::before{width:560px;height:560px;background:var(--violet);top:-200px;left:50%;transform:translateX(-50%)}
+  .closing::after{width:420px;height:420px;background:var(--cyan);bottom:-180px;left:15%;opacity:.28}
+  .closing .wrap{position:relative;z-index:1}
+  .closing h2{font-family:"Space Grotesk",system-ui;font-weight:300;font-size:clamp(2.6rem,6.5vw,5.6rem);line-height:1.02;letter-spacing:-.03em;max-width:18ch;margin:0 auto;color:#fff}
+  .closing h2 em{font-style:normal;font-weight:500;background:linear-gradient(100deg, var(--cyan), var(--violet), var(--violet-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .closing .sub{max-width:540px;margin:30px auto 44px;color:rgba(250,250,247,.72);font-size:clamp(16px,1.4vw,18px)}
+  .closing .loc{margin-top:70px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(250,250,247,.55)}
+  .closing .loc .dot{color:var(--cyan);margin:0 12px}
+
+  /* Crisis / emergency notice */
+  .crisis-notice{background:#07081a;color:rgba(250,250,247,.85);padding:44px 0;border-top:1px solid rgba(139,92,255,.18);border-bottom:1px solid rgba(139,92,255,.18);position:relative}
+  .crisis-notice .wrap{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;max-width:1100px}
+  @media (max-width:640px){.crisis-notice .wrap{grid-template-columns:1fr;gap:14px}}
+  .crisis-icon{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;color:#0A0B1A;font-family:"Space Grotesk",system-ui;font-weight:600;font-size:20px;flex-shrink:0;box-shadow:0 0 24px -4px rgba(79,216,255,.4)}
+  .crisis-body{display:flex;flex-direction:column;gap:10px}
+  .crisis-body h3{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:clamp(1.05rem,1.5vw,1.25rem);letter-spacing:-.01em;color:#fff;line-height:1.3}
+  .crisis-body p{font-size:14.5px;color:rgba(250,250,247,.7);line-height:1.6;max-width:68ch}
+  .crisis-body a{color:var(--cyan);font-weight:500;border-bottom:1px solid rgba(79,216,255,.35);transition:color .2s ease, border-color .2s ease}
+  .crisis-body a:hover{color:#fff;border-color:#fff}
+  .crisis-body strong{color:#fff;font-weight:500}
+
+  /* Footer */
+  footer{background:var(--midnight);color:rgba(250,250,247,.55);padding:44px 28px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;border-top:1px solid rgba(139,92,255,.2)}
+  footer .mark{display:inline-flex;align-items:center;gap:12px;color:#fff;font-size:13px;letter-spacing:.24em}
+  footer .mark img{width:26px;height:26px;object-fit:contain}
+
+  /* Reveal base */
+  .reveal{opacity:0;transform:translateY(28px);will-change:opacity,transform}
+
+  @media (prefers-reduced-motion:reduce){
+    .marquee-track{animation:none}
+    .hero .scroll-hint::after{animation:none}
+    .reveal{opacity:1!important;transform:none!important}
+  }
+
+  /* ====================== MOBILE OPTIMIZATION ====================== */
+  @media (max-width:900px){
+    body{font-size:16px}
+    section{padding:84px 0}
+    .wrap{padding:0 22px}
+
+    .nav{padding:18px 22px}
+    .nav .mark{font-size:13px;letter-spacing:.22em;gap:10px}
+    .nav .mark img{width:26px;height:26px}
+
+    .hero{padding:90px 0 60px;min-height:auto}
+    .hero .grid{gap:32px;padding:0 22px;grid-template-columns:1fr}
+    .hero .inner{order:2;max-width:100%}
+    .hero-visual{order:1;min-height:auto;margin:0 auto;width:100%;max-width:320px;height:240px}
+    .hero-visual::before{inset:-5%;filter:blur(22px)}
+    .brain-logo{width:84%;max-width:280px}
+    .brain-ring{display:none}
+
+    .hero .kicker{font-size:9px;letter-spacing:.28em;padding:7px 14px 7px 12px;margin-bottom:22px}
+    .hero h1{font-size:clamp(2.4rem, 11.5vw, 3.6rem);line-height:1}
+    .hero .sub{font-size:15.5px;line-height:1.55;margin-top:22px}
+
+    .hero .ctas{margin-top:28px;gap:10px;flex-direction:column;align-items:stretch}
+    .hero .ctas .btn{justify-content:center;font-size:12px;padding:15px 22px;letter-spacing:.08em}
+
+    .hero-proof{margin-top:30px;display:block;width:100%}
+    .hero-proof .proof-item{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);column-gap:16px;align-items:baseline;padding:14px 0 0;margin-top:14px;border-left:0;border-top:1px solid rgba(79,216,255,.18)}
+    .hero-proof .proof-item:first-child{border-top:0;margin-top:0;padding-top:0}
+    .hero-proof strong{font-size:18px;line-height:1.15;min-width:0}
+    .hero-proof span{font-size:10px;letter-spacing:.16em;white-space:normal;line-height:1.35;text-align:left;min-width:0}
+
+    .hero .scroll-hint{display:none}
+
+    .marquee{padding:20px 0}
+    .marquee-track{gap:36px;font-size:12px;letter-spacing:.22em}
+
+    .shift h2{margin-bottom:40px;max-width:100%}
+    .stats{margin:36px 0 44px;padding-top:32px;gap:28px}
+    .stat .num{font-size:2.4rem}
+    .stat .lbl{font-size:10px;letter-spacing:.18em}
+
+    .services .head{margin-bottom:48px}
+    .card{padding:40px 26px 34px;border-radius:14px}
+    .card .photo{margin:-40px -26px 26px}
+    .card h3{font-size:22px}
+    .card p{font-size:15px}
+
+    .experience .head{margin-bottom:56px}
+    .exp-split{gap:28px;grid-template-columns:1fr}
+    .exp-photo{aspect-ratio:3/4;max-width:420px;margin:0 auto;width:100%;position:relative;top:auto}
+    .exp-photo .tag{left:14px;bottom:14px;font-size:9px;padding:9px 14px}
+    .step{grid-template-columns:auto 1fr;gap:16px;padding:32px 24px;min-height:56vh;border-radius:18px;top:84px}
+    .step .n{font-size:2.6rem}
+    .step .txt h3{font-size:1.3rem;margin-bottom:10px}
+    .step .txt p{font-size:14.5px}
+
+    .trust .head{margin-bottom:48px}
+    .team{padding:22px;gap:24px;margin-bottom:52px;border-radius:16px;grid-template-columns:1fr}
+    .team-photo{aspect-ratio:4/5;max-height:420px}
+    .team-copy h3{font-size:1.5rem}
+    .team-copy p{font-size:15px}
+    .quotes{grid-template-columns:1fr}
+    .quote{padding:32px 26px;border-radius:14px}
+    .quote p{font-size:18px}
+    .quote .mk{font-size:44px;top:22px;right:20px}
+    .quote .meta{font-size:9px;margin-top:18px}
+    .badges{margin-top:44px;padding-top:28px;gap:8px 14px;font-size:9px;letter-spacing:.16em}
+
+    .closing{padding:100px 0 90px}
+    .closing h2{font-size:clamp(2.2rem,9vw,3.2rem)}
+    .closing .sub{margin:22px auto 32px;font-size:15.5px}
+    .closing .loc{margin-top:48px;font-size:9px;letter-spacing:.24em}
+    .closing .loc .dot{margin:0 8px}
+
+    footer{padding:32px 22px;gap:12px;font-size:9px;justify-content:center;text-align:center}
+    footer > *{flex:1 1 100%}
+    footer .mark{justify-content:center;font-size:11px}
+
+    .floating-cta{right:12px;bottom:calc(12px + env(safe-area-inset-bottom, 0px));padding:13px 20px;font-size:11px;letter-spacing:.1em}
+  }
+
+  @media (max-width:420px){
+    .hero h1{font-size:clamp(2.1rem, 11vw, 3rem)}
+    .hero .sub{font-size:15px}
+    .hero-proof strong{font-size:18px;min-width:98px}
+    .hero-proof span{font-size:9px}
+    .stat .num{font-size:2rem}
+    .step .n{font-size:2.2rem}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Primary">
+  <a href="#top" class="mark" aria-label="Lumus — home"><img src="logos/logo-brain.png" alt="Lumus" /></a>
+  <ul>
+    <li><a href="#shift">Why Ketamine</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#trust">Trust</a></li>
+  </ul>
+</nav>
+
+<a href="#closing" class="btn btn-violet floating-cta" id="floatingCta" aria-label="Book a free consultation">Book Free Consult →</a>
+
+<main id="top">
+
+  <!-- ========= HERO ========= -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-index" id="heroIndex">No. 01 / Illuminate</div>
+    <div class="hero-meta" id="heroMeta">
+      <div><strong>Est.</strong> Corona, CA</div>
+      <div>Licensed · Board-Certified</div>
+    </div>
+    <div class="grid">
+      <div class="inner">
+        <span class="kicker" id="heroKicker">Now Accepting New Patients · Corona, CA</span>
+        <h1 id="heroTitle" data-scramble>A breakthrough you can <span class="grad-text">feel.</span></h1>
+        <p class="sub" id="heroSub">IV ketamine activates the brain's glutamate system to <strong>rapidly rebuild the neural connections that depression, anxiety, and PTSD shut down.</strong> Where traditional antidepressants spend months coaxing serotonin, a Lumus infusion begins working in hours — with a meaningful shift most patients feel by session two.</p>
+        <div class="ctas" id="heroCtas">
+          <a href="#closing" class="btn btn-violet">Start With a Free Consult →</a>
+          <a href="#shift" class="btn btn-ghost">See the Science ↓</a>
+        </div>
+        <div class="hero-proof" id="heroProof">
+          <div class="proof-item"><strong>5.0★</strong><span>Google Reviews</span></div>
+          <div class="proof-item"><strong>70%+</strong><span>Respond in 2 sessions</span></div>
+          <div class="proof-item"><strong>Days</strong><span>Not weeks or months</span></div>
+          <div class="proof-item"><strong>MD-Led</strong><span>Board-certified</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" id="heroVisual" aria-hidden="true">
+        <div class="brain-logo" id="brainLogo"></div>
+      </div>
+    </div>
+    <div class="scroll-hint" id="scrollHint">Scroll</div>
+  </section>
+
+  <!-- ========= MARQUEE ========= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- ========= THE SHIFT ========= -->
+  <section class="shift" id="shift">
+    <div class="wrap">
+      <div class="reveal"><span class="eyebrow">Why Ketamine</span></div>
+      <h2 class="display reveal">When everything else stops working, the brain needs a <em>different signal.</em></h2>
+
+      <div class="stats">
+        <div class="stat reveal">
+          <div class="num"><strong>80%</strong></div>
+          <div class="lbl">Response Rate</div>
+        </div>
+        <div class="stat reveal">
+          <div class="num">6 <strong>Infusions</strong></div>
+          <div class="lbl">Over 3 Weeks</div>
+        </div>
+        <div class="stat reveal">
+          <div class="num"><strong>Board</strong>-Certified</div>
+          <div class="lbl">Clinicians</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p class="reveal">You've tried medication. You've tried therapy. Lumus offers what comes next — a clinically-guided ketamine protocol that works on the brain's glutamate system instead of serotonin, opening a window for repair that most conventional treatments can't reach.</p>
+        <p class="reveal">Most patients feel meaningful shifts within the first two infusions. Our protocol is conservative, monitored, and paired with integration support so the changes last long after the session ends.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= TRUST (moved up) ========= -->
+  <section class="trust" id="trust">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow reveal">Why Lumus</span>
+        <h2 class="reveal">Board-certified. Evidence-based. <em>Genuinely caring.</em></h2>
+      </div>
+
+      <div class="team reveal">
+        <div class="team-photo">
+          <img src="images/IMG_8661.jpg" alt="The clinical team at Lumus" />
+        </div>
+        <div class="team-copy">
+          <span class="eyebrow">Meet Your Clinicians</span>
+          <h3>A small, dedicated team — not a referral network.</h3>
+          <p>Every consultation, intake, and infusion at Lumus is delivered by the same board-certified clinicians from start to finish. No rotating providers. No handoffs. The care plan you start with is the care plan you keep — adjusted only when your progress calls for it.</p>
+          <span class="sig">Corona, CA · Licensed in California</span>
+        </div>
+      </div>
+
+      <a href="https://www.google.com/search?q=lumus+mind+corona+ca+reviews" target="_blank" rel="noopener" class="g-reviews reveal" aria-label="Read verified Google reviews for Lumus">
+        <span class="g-logo" aria-hidden="true">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+        </span>
+        <div class="g-body">
+          <div class="g-rating">5.0 <span class="g-stars"><span>★★★★★</span></span></div>
+          <div class="g-caption">Based on verified Google Reviews</div>
+        </div>
+        <span class="g-link">Read all →</span>
+      </a>
+
+      <div class="quotes wall reveal">
+        <figure class="quote q-tall">
+          <div class="mk">“</div>
+          <p>By the third infusion, something I hadn't felt in fifteen years came back. I still can't fully describe it, but I know what it is: me.</p>
+          <figcaption class="meta">— Patient, age 42 · Depression</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+        <figure class="quote">
+          <div class="mk">“</div>
+          <p>For the first time in years, I could breathe. I didn't realize how heavy things had become until they lifted.</p>
+          <figcaption class="meta">— Patient, age 37 · Anxiety</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+        <figure class="quote">
+          <div class="mk">“</div>
+          <p>Six sessions and my nightmares are quieter. I can sleep through the night again. That's everything.</p>
+          <figcaption class="meta">— Patient, age 29 · PTSD</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+        <figure class="quote q-wide">
+          <div class="mk">“</div>
+          <p>They treated me like a person, not a chart. Every detail — from the first call to the integration work — felt considered.</p>
+          <figcaption class="meta">— Patient, age 31 · Anxiety &amp; PTSD</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+        <figure class="quote">
+          <div class="mk">“</div>
+          <p>I was skeptical. The science is real, and the care is even more so. Lumus gave me my family back.</p>
+          <figcaption class="meta">— Patient, age 52 · Depression</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+        <figure class="quote q-small">
+          <div class="mk">“</div>
+          <p>The team walked me through every step. No judgment, no pressure.</p>
+          <figcaption class="meta">— Patient, age 44 · Depression</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+        <figure class="quote">
+          <div class="mk">“</div>
+          <p>I have my life back. Not a partial version — my actual life.</p>
+          <figcaption class="meta">— Patient, age 41 · Treatment-Resistant Depression</figcaption>
+          <span class="g-mark" aria-label="Google review"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg></span>
+        </figure>
+      </div>
+
+      <div class="badges reveal">
+        <span>Licensed in California</span>
+        <span>Board-Certified Clinicians</span>
+        <span>HIPAA Compliant</span>
+        <span>Monitored In-Clinic Care</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= EXPERIENCE (moved ahead of services) ========= -->
+  <section class="experience" id="experience">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow reveal">What to Expect</span>
+        <h2 class="reveal">A process that feels more like <em>care</em>, less like a clinic.</h2>
+      </div>
+      <div class="exp-split">
+        <div class="exp-photo-col">
+          <div class="exp-photo">
+            <img src="images/Use AI Image Apr 14, 2026, 16_55_56.png" alt="Patient at peace at sunset" />
+            <div class="tag">A breakthrough, not a band-aid</div>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="n">01</div>
+            <div class="txt">
+              <h3>Free Consultation Call</h3>
+              <p>A 15-minute conversation with a clinician — no forms, no pressure. We listen, answer your questions, and tell you honestly whether ketamine is a fit.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">02</div>
+            <div class="txt">
+              <h3>Personalized Treatment Plan</h3>
+              <p>A full intake with medical and psychiatric history, then a protocol tailored to you — dosing, cadence, integration, and the supportive care around it.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">03</div>
+            <div class="txt">
+              <h3>Your Infusion Series</h3>
+              <p>Six sessions over two to three weeks in our Corona clinic. Comfortable lounge seating, vital monitoring, and a trained clinician beside you the entire time.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">04</div>
+            <div class="txt">
+              <h3>Ongoing Support &amp; Integration</h3>
+              <p>Follow-up psychiatry, integration sessions, and maintenance dosing as needed. The goal isn't just relief — it's a durable change in how you live.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= SERVICES ========= -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow reveal">What We Treat</span>
+        <h2 class="reveal">One breakthrough treatment. Three ways it changes lives.</h2>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <div class="num">01 — Depression</div>
+          <h3>Treatment-Resistant Depression</h3>
+          <p>For the 30% of patients who don't respond to SSRIs and SNRIs. IV ketamine acts on the brain's glutamate system in hours — not weeks — restoring connections traditional antidepressants can't reach.</p>
+          <span class="more">FDA-recognized protocol</span>
+        </article>
+        <article class="card reveal">
+          <div class="num">02 — Anxiety</div>
+          <h3>Generalized Anxiety &amp; Panic</h3>
+          <p>When chronic worry, racing thoughts, and panic cycles don't release with medication or therapy alone, ketamine can quiet the overactive networks that drive them — fast, and measurably.</p>
+          <span class="more">Calm that holds</span>
+        </article>
+        <article class="card reveal">
+          <div class="num">03 — PTSD</div>
+          <h3>Trauma &amp; PTSD</h3>
+          <p>Research shows ketamine can reduce intrusive memories and hyperarousal in a single session. Paired with integration support, it opens a window for the nervous system to re-regulate and heal.</p>
+          <span class="more">Evidence-based relief</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- trust section moved above services (see earlier placement) -->
+
+  <!-- ========= CLOSING ========= -->
+  <section class="closing" id="closing">
+    <div class="wrap">
+      <h2 class="reveal">Your mind is ready for <em>something new.</em></h2>
+      <p class="sub reveal">Book a free 15-minute consultation. No commitment. No pressure.</p>
+      <div class="reveal"><a href="mailto:hello@lumusmind.com" class="btn btn-violet">Book Your Free Consultation →</a></div>
+      <div class="loc reveal">Lumus <span class="dot">·</span> Corona, CA <span class="dot">·</span> lumusmind.com</div>
+    </div>
+  </section>
+
+</main>
+
+<aside class="crisis-notice" role="complementary" aria-label="Emergency and crisis information">
+  <div class="wrap">
+    <div class="crisis-icon" aria-hidden="true">!</div>
+    <div class="crisis-body">
+      <h3>Lumus does not provide emergency services.</h3>
+      <p>If you or someone you know is experiencing a mental health or medical emergency, please call <a href="tel:911"><strong>911</strong></a>, go to your nearest emergency department, or contact the <strong>988 Suicide &amp; Crisis Lifeline</strong> by calling or texting <a href="tel:988"><strong>988</strong></a>. The Crisis Text Line is also available 24/7 — text <strong>HOME</strong> to <a href="sms:741741"><strong>741741</strong></a>.</p>
+    </div>
+  </div>
+</aside>
+
+<footer>
+  <div class="mark"><img src="logos/logo-brain.png" alt="" />Lumus</div>
+  <div>© 2026 Lumus Mind · All rights reserved</div>
+  <div>Corona, California · lumusmind.com</div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================ NEURON FIELD (full-screen drifting network) ================ */
+  (function initNeurons(){
+    const canvas = document.getElementById('heroCanvas');
+    if(!canvas) return;
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-10,10,5,-5,0.1,100);
+    camera.position.z = 10;
+
+    // Soft-glow circle sprite for each neuron
+    function makeNeuronTexture(){
+      const size = 128;
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const g = ctx.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+      g.addColorStop(0.00,'rgba(255,255,255,1)');
+      g.addColorStop(0.30,'rgba(255,255,255,0.85)');
+      g.addColorStop(0.55,'rgba(255,255,255,0.35)');
+      g.addColorStop(1.00,'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,size,size);
+      const tex = new THREE.CanvasTexture(c);
+      tex.needsUpdate = true;
+      return tex;
+    }
+
+    const N = 85;
+    const positions  = new Float32Array(N*3);
+    const velocities = new Float32Array(N*3);
+    const colors     = new Float32Array(N*3);
+    const sizes      = new Float32Array(N);
+    const cyan       = new THREE.Color(0x4FD8FF);
+    const violet     = new THREE.Color(0x8B5CFF);
+    const violetSoft = new THREE.Color(0xB59AFF);
+
+    for(let i=0;i<N;i++){
+      positions[i*3]   = (Math.random()-0.5)*24;
+      positions[i*3+1] = (Math.random()-0.5)*14;
+      positions[i*3+2] = (Math.random()-0.5)*2;
+      velocities[i*3]   = (Math.random()-0.5)*0.012;
+      velocities[i*3+1] = (Math.random()-0.5)*0.012;
+      velocities[i*3+2] = 0;
+      const pick = Math.random();
+      const c = pick<0.45 ? cyan : (pick<0.82 ? violet : violetSoft);
+      colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
+      sizes[i] = 0.14 + Math.random()*0.16;
+    }
+
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pGeo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+    pGeo.setAttribute('size',     new THREE.BufferAttribute(sizes, 1));
+
+    const pMat = new THREE.PointsMaterial({
+      size: 0.32,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
+      sizeAttenuation: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      map: makeNeuronTexture(),
+      alphaTest: 0.01
+    });
+    const neurons = new THREE.Points(pGeo, pMat);
+    scene.add(neurons);
+
+    // Synaptic lines between nearby neurons
+    const maxEdges = N*(N-1)/2;
+    const linePos  = new Float32Array(maxEdges*6);
+    const lineCol  = new Float32Array(maxEdges*6);
+    const lineGeo  = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+    lineGeo.setAttribute('color',    new THREE.BufferAttribute(lineCol, 3));
+    const lineMat = new THREE.LineBasicMaterial({
+      vertexColors:true,
+      transparent:true,
+      opacity:0.55,
+      blending:THREE.AdditiveBlending,
+      depthWrite:false
+    });
+    const lines = new THREE.LineSegments(lineGeo, lineMat);
+    scene.add(lines);
+
+    // Viewport fit
+    const viewHeight = 14;
+    function resize(){
+      const w = window.innerWidth, h = window.innerHeight;
+      renderer.setSize(w, h, false);
+      const aspect = w/h;
+      const vh = viewHeight, vw = vh*aspect;
+      camera.left=-vw/2; camera.right=vw/2;
+      camera.top=vh/2;   camera.bottom=-vh/2;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Mouse (world-space, orthographic)
+    const mouse = {x:9999, y:9999};
+    window.addEventListener('mousemove', (e)=>{
+      mouse.x = ((e.clientX / window.innerWidth) - 0.5) * (camera.right * 2);
+      mouse.y = -((e.clientY / window.innerHeight) - 0.5) * (camera.top * 2);
+    });
+    window.addEventListener('mouseleave', ()=>{ mouse.x = 9999; mouse.y = 9999; });
+
+    const CONNECT = 2.6; // synaptic distance
+    const CONNECT_SQ = CONNECT*CONNECT;
+
+    function animate(){
+      const pArr = pGeo.attributes.position.array;
+      const halfW = camera.right + 0.6;
+      const halfH = camera.top    + 0.6;
+
+      // Drift neurons
+      for(let i=0;i<N;i++){
+        if(!reduceMotion){
+          // Mouse subtle attraction
+          const dx = mouse.x - pArr[i*3];
+          const dy = mouse.y - pArr[i*3+1];
+          const d2 = dx*dx + dy*dy;
+          if(d2 < 9){
+            const f = (9 - d2) * 0.0002;
+            velocities[i*3]   += dx*f;
+            velocities[i*3+1] += dy*f;
+          }
+
+          pArr[i*3]   += velocities[i*3];
+          pArr[i*3+1] += velocities[i*3+1];
+
+          // Wrap-around
+          if(pArr[i*3]   >  halfW) pArr[i*3]   = -halfW;
+          if(pArr[i*3]   < -halfW) pArr[i*3]   =  halfW;
+          if(pArr[i*3+1] >  halfH) pArr[i*3+1] = -halfH;
+          if(pArr[i*3+1] < -halfH) pArr[i*3+1] =  halfH;
+
+          // Gentle damping
+          velocities[i*3]   *= 0.993;
+          velocities[i*3+1] *= 0.993;
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      // Rebuild synaptic lines
+      let e = 0;
+      const lp = lineGeo.attributes.position.array;
+      const lc = lineGeo.attributes.color.array;
+      for(let i=0;i<N;i++){
+        const xi = pArr[i*3], yi = pArr[i*3+1], zi = pArr[i*3+2];
+        for(let j=i+1;j<N;j++){
+          const dx = xi - pArr[j*3];
+          const dy = yi - pArr[j*3+1];
+          const d2 = dx*dx + dy*dy;
+          if(d2 < CONNECT_SQ){
+            const d = Math.sqrt(d2);
+            const k = 1 - d/CONNECT; // 1 when close, 0 at threshold
+            lp[e*6  ] = xi; lp[e*6+1] = yi; lp[e*6+2] = zi;
+            lp[e*6+3] = pArr[j*3]; lp[e*6+4] = pArr[j*3+1]; lp[e*6+5] = pArr[j*3+2];
+            // per-vertex color fades with distance (via RGB attenuation, additive blending)
+            lc[e*6  ] = colors[i*3]  *k;
+            lc[e*6+1] = colors[i*3+1]*k;
+            lc[e*6+2] = colors[i*3+2]*k;
+            lc[e*6+3] = colors[j*3]  *k;
+            lc[e*6+4] = colors[j*3+1]*k;
+            lc[e*6+5] = colors[j*3+2]*k;
+            e++;
+          }
+        }
+      }
+      lineGeo.setDrawRange(0, e*2);
+      lineGeo.attributes.position.needsUpdate = true;
+      lineGeo.attributes.color.needsUpdate = true;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+
+  /* ================ SCRAMBLE HEADLINE ================ */
+  (function scrambleHero(){
+    const el = document.querySelector('[data-scramble]');
+    if(!el) return;
+    const tokens = [
+      {text:"A breakthrough you can ", grad:false},
+      {text:"feel.", grad:true}
+    ];
+    if(reduceMotion){ return; }
+
+    const chars = "!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const duration = 1800;
+    const stepDelay = 55;
+    const start = performance.now();
+
+    function render(now){
+      const elapsed = now - start;
+      let out = '';
+      let i = 0;
+      for(const tok of tokens){
+        let chunk = '';
+        for(const ch of tok.text){
+          if(ch === ' '){ chunk += ' '; i++; continue; }
+          const resolveAt = i * stepDelay;
+          if(elapsed >= resolveAt + 320){
+            chunk += ch;
+          } else {
+            chunk += chars[Math.floor(Math.random()*chars.length)];
+          }
+          i++;
+        }
+        out += tok.grad ? `<span class="grad-text">${chunk}</span>` : chunk;
+      }
+      el.innerHTML = out;
+      if(elapsed < duration){
+        requestAnimationFrame(render);
+      } else {
+        el.innerHTML = tokens.map(t => t.grad ? `<span class="grad-text">${t.text}</span>` : t.text).join('');
+        gsap.to('#heroKicker', {opacity:1, duration:0.8, ease:'power2.out'});
+        gsap.to('#heroSub', {opacity:1, y:0, duration:0.9, ease:'power3.out', delay:0.1});
+        gsap.to('#heroCtas', {opacity:1, y:0, duration:0.9, ease:'power3.out', delay:0.3});
+        gsap.to('#heroProof', {opacity:1, y:0, duration:0.9, ease:'power3.out', delay:0.5});
+        gsap.to('#brainLogo', {opacity:1, duration:1.4, ease:'power3.out'});
+        gsap.to('#heroIndex', {opacity:1, duration:0.9, ease:'power2.out', delay:0.9});
+        gsap.to('#heroMeta',  {opacity:1, duration:0.9, ease:'power2.out', delay:1.1});
+        gsap.to('#scrollHint', {opacity:1, duration:1, delay:0.8});
+      }
+    }
+    requestAnimationFrame(render);
+  })();
+</script>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  (function(){
+    const track = document.getElementById('marqueeTrack');
+    const items = ['IV KETAMINE THERAPY','TREATMENT-RESISTANT DEPRESSION','ANXIETY','PTSD','CORONA, CA','ILLUMINATE YOUR MIND'];
+    const one = items.map(t => `<span>${t}</span><span class="dot">◆</span>`).join('');
+    track.innerHTML = one + one + one + one;
+  })();
+
+  if(reduce){
+    ['heroSub','heroCtas','heroKicker','heroProof','brainLogo','heroIndex','heroMeta'].forEach(id=>{
+      const n = document.getElementById(id); if(n) n.style.opacity = 1;
+    });
+    const el = document.querySelector('[data-scramble]');
+    el.innerHTML = 'A breakthrough you can <span class="grad-text">feel.</span>';
+  }
+
+  let lenis;
+  if(!reduce){
+    lenis = new Lenis({duration:1.2, easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true});
+    function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+  }
+
+  if(window.gsap && window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    if(lenis){ lenis.on('scroll', ScrollTrigger.update); }
+    gsap.utils.toArray('.reveal').forEach(el=>{
+      const isSticky = el.classList.contains('exp-photo') || el.classList.contains('step');
+      gsap.to(el,{
+        opacity:1, y:0, duration:1, ease:'power3.out',
+        scrollTrigger:{trigger:el, start:'top 88%', once:true},
+        onComplete: isSticky ? ()=>gsap.set(el, {clearProps:'transform,willChange'}) : undefined
+      });
+    });
+    const cta = document.getElementById('floatingCta');
+    ScrollTrigger.create({
+      trigger:'.hero',
+      start:'bottom top+=100',
+      onEnter: ()=>cta.classList.add('visible'),
+      onLeaveBack: ()=>cta.classList.remove('visible')
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity=1;el.style.transform='none';});
+    document.getElementById('floatingCta').classList.add('visible');
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      const id = a.getAttribute('href');
+      if(id.length < 2) return;
+      const target = document.querySelector(id);
+      if(!target) return;
+      e.preventDefault();
+      if(lenis){ lenis.scrollTo(target, {offset:-20, duration:1.4}); }
+      else { target.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+  });
+</script>
+
+</body>
+</html>

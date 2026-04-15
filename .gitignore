@@ -1,0 +1,13 @@
+# System
+.DS_Store
+
+# Local deployment configs
+.netlify
+.vercel
+.claude
+
+# Internal / unrelated folders (not part of the landing page)
+docs/
+iterations/
+landing-pages/
+website/
