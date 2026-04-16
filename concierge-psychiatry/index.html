@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Concierge Psychiatry | Telehealth Across California | LUMUS</title>
+<meta name="description" content="Psychiatrist-led concierge mental health care for adults. Same-week appointments, continuity with Dr. Garcia, and a treatment approach that goes beyond medication management. Telehealth in 32 states." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+/* ============ DESIGN TOKENS — exact match to lumusmind-landing ============ */
+:root {
+  --midnight: #0A0B1A;
+  --midnight-2: #12132B;
+  --deep-violet: #1B1145;
+  --lavender: #F1EDF9;
+  --lavender-warm: #EDE6FA;
+  --violet: #8B5CFF;
+  --violet-soft: #B59AFF;
+  --violet-deep: #6B3FE0;
+  --cyan: #4FD8FF;
+  --cyan-soft: #8EE8FF;
+  --offwhite: #FAFAF7;
+  --ink: #0D0D0D;
+  --max: 1240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--midnight);color:var(--offwhite);font-family:"DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip}
+body{font-size:17px;line-height:1.65}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+::selection{background:var(--violet);color:#fff}
+
+.display{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:400;letter-spacing:-.025em;line-height:1.02}
+.mono{font-family:"Michroma",monospace;letter-spacing:.12em;text-transform:uppercase}
+.grad-text{background:linear-gradient(100deg,var(--cyan) 0%,var(--violet) 55%,var(--violet-deep) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{display:inline-block;font-family:"Michroma",monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.8;margin-bottom:22px;position:relative;padding-left:38px}
+.eyebrow::before{content:"";position:absolute;left:0;top:50%;width:28px;height:1px;background:currentColor;opacity:.6}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+@media(min-width:900px){.wrap{padding:0 56px}}
+section{position:relative;padding:120px 0}
+@media(min-width:900px){section{padding:160px 0}}
+
+/* Buttons — exact match */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:17px 30px;border-radius:999px;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;transition:transform .3s ease,background .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;white-space:nowrap;font-family:"DM Sans"}
+.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.btn-violet{background:linear-gradient(100deg,var(--violet) 0%,var(--violet-deep) 100%);color:#fff;box-shadow:0 14px 34px -8px rgba(139,92,255,.55),0 0 28px -6px rgba(139,92,255,.35)}
+.btn-violet:hover{transform:translateY(-2px);background:linear-gradient(100deg,var(--cyan) 0%,var(--violet) 100%);box-shadow:0 18px 44px -8px rgba(79,216,255,.6),0 0 56px -4px rgba(79,216,255,.5)}
+.btn-ghost{border:1px solid rgba(250,250,247,.35);color:var(--offwhite)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(28px)}
+
+/* ============ NAV — match live site ============ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:difference;transition:all .4s ease}
+.nav .mark{display:inline-flex;align-items:center}
+.nav .mark img{width:auto;height:44px;object-fit:contain}
+.nav ul{display:none;gap:36px;list-style:none;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
+@media(min-width:900px){.nav{padding:28px 56px}.nav ul{display:flex}}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-phone{display:none;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.6)}
+@media(min-width:1100px){.nav-phone{display:block}}
+.nav-cta{padding:12px 24px;border-radius:999px;font-family:"DM Sans";font-size:13px;font-weight:500;letter-spacing:.04em;background:linear-gradient(100deg,var(--violet),var(--violet-deep));color:#fff;box-shadow:0 10px 24px -8px rgba(139,92,255,.4);transition:all .3s ease}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 14px 30px -8px rgba(79,216,255,.5);background:linear-gradient(100deg,var(--cyan),var(--violet))}
+
+/* ============ HERO — full background image ============ */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:#000}
+.hero-bg{position:absolute;top:0;right:-30px;bottom:0;width:65%;z-index:0;overflow:hidden}
+@media(min-width:1200px){.hero-bg{width:60%}}
+.hero-bg img{width:105%;height:100%;object-fit:cover;object-position:45% 75%;position:absolute;bottom:0;right:2%}
+/* Gradient overlays — fade image into black on left edge and bottom */
+.hero-bg::before{content:"";position:absolute;inset:0;z-index:1;background:
+  linear-gradient(90deg,#000 0%,rgba(0,0,0,.65) 25%,transparent 50%),
+  linear-gradient(180deg,rgba(0,0,0,.3) 0%,transparent 25%,transparent 65%,#000 100%),
+  linear-gradient(270deg,rgba(0,0,0,.2) 0%,transparent 15%)}
+.hero-bg::after{content:"";position:absolute;inset:0;z-index:2;background:
+  radial-gradient(ellipse at 60% 40%,rgba(139,92,255,.08),transparent 55%);
+  pointer-events:none}
+.hero .wrap{position:relative;z-index:2;max-width:none;margin:0;padding:0 28px}
+@media(min-width:900px){.hero .wrap{padding:0 7vw}}
+.hero-inner{max-width:520px;padding:140px 0 80px}
+@media(min-width:900px){.hero-inner{padding:0;max-width:42vw}}
+@media(min-width:1400px){.hero-inner{max-width:520px}}
+.hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.4em;color:var(--cyan);margin-bottom:24px;padding:8px 16px 8px 14px;border:1px solid rgba(79,216,255,.3);border-radius:999px;background:rgba(79,216,255,.05);backdrop-filter:blur(8px);opacity:0}
+.hero-kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulseDot 2.2s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:.4}50%{opacity:1}}
+.hero h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:300;line-height:.98;letter-spacing:-.03em;font-size:clamp(2.6rem,6.8vw,5.2rem);color:#fff;opacity:0}
+.hero h1 .grad-text{font-weight:500}
+.hero .sub{margin:24px 0 0;max-width:500px;font-size:clamp(15.5px,1.2vw,17.5px);color:rgba(250,250,247,.72);opacity:0;line-height:1.6;font-style:italic}
+.hero .supporting{margin-top:14px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,250,247,.4);opacity:0}
+.hero .supporting span{margin:0 10px;opacity:.4}
+.hero-ctas{margin-top:32px;display:flex;flex-wrap:wrap;gap:14px;opacity:0}
+
+/* Hero proof bar */
+.hero-proof{margin-top:48px;display:flex;flex-wrap:wrap;gap:14px 40px;opacity:0}
+.hero-proof .proof-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:100px;padding:0 14px;border-left:1px solid rgba(79,216,255,.25)}
+.hero-proof .proof-item:first-child{border-left:0}
+@media(max-width:640px){.hero-proof .proof-item{border-left:0;padding:0}.hero-proof{gap:20px 28px}}
+.hero-proof strong{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:clamp(18px,2vw,24px);color:#fff;letter-spacing:-.01em}
+.hero-proof span{font-family:"Michroma",monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,250,247,.5);white-space:nowrap}
+
+/* ============ MARQUEE — match live site ============ */
+.marquee{background:var(--midnight);padding:28px 0;border-top:1px solid rgba(139,92,255,.2);border-bottom:1px solid rgba(139,92,255,.2);overflow:hidden;white-space:nowrap;background:linear-gradient(90deg,var(--midnight) 0%,#130e2e 50%,var(--midnight) 100%)}
+.marquee-track{display:inline-flex;gap:56px;animation:marquee 42s linear infinite;font-family:"Michroma",monospace;font-size:clamp(13px,1.5vw,16px);letter-spacing:.3em;will-change:transform}
+.marquee-track span{display:inline-block}
+.marquee-track .dot{color:var(--cyan)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ SHIFT (lavender section) ============ */
+.shift{background:var(--lavender);color:var(--ink)}
+.shift h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5.3vw,4.4rem);line-height:1.02;letter-spacing:-.025em;max-width:18ch;margin-bottom:56px}
+.shift h2 em{font-style:normal;font-weight:500}
+.shift .eyebrow{color:var(--deep-violet)}
+.shift .prose{max-width:620px;font-size:clamp(16px,1.3vw,18px);color:rgba(13,13,13,.78)}
+.shift .prose p+p{margin-top:20px}
+.stats{display:grid;grid-template-columns:1fr;gap:24px;margin:56px 0 64px;border-top:1px solid rgba(27,17,69,.15);padding-top:44px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(3,1fr);gap:56px}}
+.stat .num{font-family:"Space Grotesk",system-ui;font-weight:300;font-size:clamp(2.6rem,5vw,4rem);line-height:1;margin-bottom:10px;color:var(--deep-violet)}
+.stat .num strong{font-weight:500}
+.stat .lbl{font-family:"Michroma",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.65}
+
+/* ============ SERVICES (deep-violet) — cards with gradient bar ============ */
+.services{background:var(--deep-violet);color:var(--offwhite);overflow:hidden;position:relative}
+.services::before{content:"";position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,255,.25),transparent 65%);top:-200px;right:-200px;pointer-events:none}
+.services .wrap{position:relative;z-index:1}
+.services .head{display:flex;flex-direction:column;gap:18px;margin-bottom:70px;max-width:900px}
+.services h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em}
+.services .eyebrow{color:var(--cyan)}
+.cards{display:grid;grid-template-columns:1fr;gap:22px}
+@media(min-width:900px){.cards{grid-template-columns:repeat(3,1fr);gap:26px}}
+.card{background:var(--offwhite);color:var(--ink);border-radius:16px;padding:44px 34px 40px;position:relative;overflow:hidden;transition:transform .4s ease,box-shadow .4s ease}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--violet-deep));z-index:3}
+.card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -25px rgba(0,0,0,.5)}
+.card .num{font-family:"Michroma",monospace;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--violet);margin-bottom:20px}
+.card h3{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:26px;letter-spacing:-.015em;line-height:1.15;margin-bottom:14px}
+.card p{font-size:15.5px;color:rgba(13,13,13,.7);margin-bottom:26px}
+
+/* ============ EXPERIENCE (violet gradient) — sticky-stack steps ============ */
+.experience{background:linear-gradient(160deg,#2A1E6B 0%,#4A2BB5 50%,#6B3FE0 100%);color:#fff;position:relative}
+.experience::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(79,216,255,.18),transparent 55%);pointer-events:none}
+.experience .wrap{position:relative}
+.experience .head{max-width:900px;margin-bottom:80px}
+.experience h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em}
+.experience h2 em{font-style:normal;font-weight:500;color:var(--cyan-soft)}
+.experience .eyebrow{color:var(--cyan-soft)}
+.exp-split{display:grid;grid-template-columns:1fr;gap:40px;align-items:start}
+@media(min-width:1000px){.exp-split{grid-template-columns:0.9fr 1.1fr;gap:80px}}
+.exp-photo-col{min-width:0;position:relative}
+@media(min-width:1000px){.exp-photo-col{position:sticky;top:120px;align-self:start}}
+.exp-photo{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 80px -40px rgba(0,0,0,.5)}
+.exp-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.exp-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(79,216,255,0.12),transparent 40%,rgba(27,17,69,.4));mix-blend-mode:multiply}
+.exp-photo .tag{position:absolute;left:22px;bottom:22px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:rgba(10,11,26,.55);backdrop-filter:blur(8px);padding:11px 18px;border-radius:999px;border:1px solid rgba(79,216,255,.3)}
+/* Sticky-stacking steps */
+.steps{display:flex;flex-direction:column;gap:0;position:relative}
+.step-card{position:sticky;top:100px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;padding:48px 36px;min-height:50vh;border-radius:22px;background:linear-gradient(155deg,#2A1E6B 0%,#4A2BB5 55%,#7A4BE8 100%);box-shadow:0 -24px 60px -30px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);overflow:hidden}
+.step-card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--violet-soft));opacity:.9;z-index:2}
+.step-card .n{font-family:"Space Grotesk",system-ui;font-weight:300;font-size:clamp(3.4rem,8vw,7rem);line-height:.85;color:var(--cyan-soft);letter-spacing:-.04em;position:relative;z-index:1}
+.step-card .txt{position:relative;z-index:1}
+.step-card .txt h3{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:clamp(1.6rem,3vw,2.6rem);letter-spacing:-.015em;margin-bottom:16px;line-height:1.1}
+.step-card .txt .meta{font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:12px}
+.step-card .txt p{max-width:52ch;color:rgba(255,255,255,.82);font-size:16.5px;line-height:1.7}
+.step-card:nth-child(1){z-index:1}.step-card:nth-child(2){z-index:2}.step-card:nth-child(3){z-index:3}.step-card:nth-child(4){z-index:4}
+@media(min-width:900px){.step-card{grid-template-columns:220px 1fr;gap:56px;padding:72px 60px}}
+
+/* ============ TRUST (warm offwhite) ============ */
+.trust{background:var(--lavender-warm);color:var(--ink)}
+.trust .head{max-width:780px;margin-bottom:70px}
+.trust h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em}
+.trust h2 em{font-weight:500;font-style:normal;background:linear-gradient(100deg,var(--violet),var(--violet-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.trust .eyebrow{color:var(--deep-violet)}
+.team{display:grid;grid-template-columns:1fr;gap:36px;align-items:center;margin-bottom:80px;padding:32px;background:#fff;border-radius:20px;box-shadow:0 30px 70px -40px rgba(27,17,69,.25);position:relative;overflow:hidden}
+.team::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--violet-deep))}
+@media(min-width:900px){.team{grid-template-columns:0.9fr 1.1fr;gap:56px;padding:36px}}
+.team-photo{aspect-ratio:4/5;border-radius:14px;overflow:hidden;position:relative}
+.team-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.team-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(27,17,69,.2))}
+.team-copy .eyebrow{color:var(--deep-violet)}
+.team-copy h3{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(1.8rem,3.2vw,2.4rem);line-height:1.1;margin-bottom:18px;letter-spacing:-.02em}
+.team-copy p{color:rgba(13,13,13,.72);font-size:16px;max-width:46ch}
+.team-copy p+p{margin-top:16px}
+.team-copy .sig{margin-top:22px;display:inline-flex;align-items:center;gap:12px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--deep-violet)}
+.team-copy .sig::before{content:"";width:36px;height:1px;background:var(--violet)}
+.credentials{display:grid;gap:10px;margin-top:24px}
+.credential{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(13,13,13,.65);line-height:1.5}
+.credential::before{content:"";flex-shrink:0;width:7px;height:7px;border-radius:2px;background:var(--violet);margin-top:6px;opacity:.6}
+
+/* ============ PRICING (deep-violet bg) ============ */
+.pricing{background:var(--deep-violet);color:var(--offwhite);position:relative;overflow:hidden}
+.pricing::after{content:"";position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(79,216,255,.12),transparent 65%);bottom:-180px;right:-100px;pointer-events:none}
+.pricing .wrap{position:relative;z-index:1}
+.pricing h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em;margin-bottom:20px}
+.pricing .eyebrow{color:var(--cyan)}
+.pricing-note{padding:20px 28px;background:rgba(79,216,255,.06);border:1px solid rgba(79,216,255,.15);border-radius:10px;font-size:14.5px;line-height:1.6;color:rgba(250,250,247,.7);margin:32px 0 40px}
+.pricing-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:700px){.pricing-grid{grid-template-columns:1fr 1fr}}
+.pricing-card{padding:28px 30px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:border-color .3s ease,transform .3s ease}
+.pricing-card:hover{border-color:rgba(139,92,255,.3);transform:translateY(-2px)}
+.pricing-card h4{font-family:"DM Sans";font-size:15px;font-weight:600;color:var(--offwhite);margin-bottom:3px}
+.pricing-card .dur{font-size:13px;color:rgba(250,250,247,.45)}
+.pricing-card .price{font-family:"Space Grotesk",system-ui;font-size:1.6rem;font-weight:500;color:var(--cyan);white-space:nowrap}
+.membership-box{margin-top:32px;padding:28px 30px;background:linear-gradient(135deg,rgba(139,92,255,.1),rgba(79,216,255,.06));border:1px solid rgba(139,92,255,.2);border-radius:12px}
+.membership-box h4{font-family:"Space Grotesk",system-ui;font-size:1.2rem;font-weight:500;color:var(--offwhite);margin-bottom:10px}
+.membership-box p{font-size:14.5px;line-height:1.65;color:rgba(250,250,247,.7)}
+.pricing-cta{margin-top:40px;text-align:center}
+
+/* ============ FINAL CTA ============ */
+.closing{position:relative;text-align:center;padding:140px 0;overflow:hidden}
+.closing-bg{position:absolute;inset:0;z-index:0}
+.closing-bg img{width:100%;height:100%;object-fit:cover;opacity:.3}
+.closing-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--midnight) 0%,rgba(10,11,26,.5) 40%,rgba(10,11,26,.8) 70%,var(--midnight) 100%),radial-gradient(ellipse at center,rgba(139,92,255,.15),transparent 60%)}
+.closing .wrap{position:relative;z-index:2}
+.closing h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2rem,4.5vw,3.4rem);line-height:1.06;letter-spacing:-.025em;max-width:680px;margin:0 auto 20px}
+.closing h2 em{font-style:normal;font-weight:500;color:var(--cyan-soft)}
+.closing .subtext{font-size:15px;color:rgba(250,250,247,.6);margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto}
+.closing-ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:28px}
+.closing .location{font-size:13px;color:rgba(250,250,247,.35);line-height:1.7}
+.closing .location a{text-decoration:underline;text-underline-offset:3px}
+
+/* ============ FOOTER ============ */
+footer{background:var(--midnight);border-top:1px solid rgba(139,92,255,.1);padding:40px 0;text-align:center}
+footer .flogo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+footer .flogo img{height:28px;width:auto}
+footer .flogo span{font-family:"Michroma",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,250,247,.5)}
+/* Emergency disclaimer */
+.disclaimer{background:var(--midnight);border-top:1px solid rgba(139,92,255,.1);padding:48px 0;text-align:center}
+.disclaimer .icon{font-size:24px;margin-bottom:14px}
+.disclaimer h4{font-family:"Michroma",monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--offwhite);margin-bottom:14px}
+.disclaimer p{font-size:14px;line-height:1.7;color:rgba(250,250,247,.45);max-width:600px;margin:0 auto}
+.disclaimer a{color:var(--cyan);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+footer p{font-size:13px;color:rgba(250,250,247,.3)}
+
+/* ============ FLOATING CTA (mobile) ============ */
+.floating-cta{position:fixed;right:22px;bottom:22px;z-index:60;opacity:0;pointer-events:none;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.floating-cta.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+@media(max-width:700px){.floating-cta{right:14px;bottom:14px;padding:14px 22px;font-size:12px}}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:899px){
+  .hero-inner{padding:140px 0 60px}
+  .hero-bg{width:100%;right:0}
+  .hero-bg img{object-position:65% center}
+  .hero-bg::before{background:
+    linear-gradient(90deg,#000 0%,rgba(0,0,0,.75) 40%,rgba(0,0,0,.35) 70%,transparent 100%),
+    linear-gradient(180deg,rgba(0,0,0,.4) 0%,transparent 25%,transparent 55%,#000 100%) !important}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none}
+  .hero-kicker,.hero h1,.hero .sub,.hero .supporting,.hero-ctas,.hero-proof{opacity:1}
+  .marquee-track{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav" id="nav">
+  <a class="mark" href="#top">
+    <img src="../logos/logo-brain.png" alt="LUMUS" width="36" height="36" />
+  </a>
+  <ul>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#doctor">Dr. Garcia</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="tel:9518248580" class="nav-phone">(951) 824-8580</a>
+    <a href="#schedule" class="nav-cta">Book Free Consult →</a>
+  </div>
+</nav>
+
+<!-- ========== HERO — full background portrait ========== -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <img src="../images/Gemini_Generated_Image_iwr0xdiwr0xdiwr0.png" alt="" width="1408" height="768" />
+  </div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-kicker">Adult Concierge Psychiatry</div>
+      <h1>You are not<br>a <span class="grad-text">med check.</span></h1>
+      <p class="sub">You deserve more than 15 minutes and a prescription. At LUMUS, one psychiatrist knows your full story — not just your symptoms. No waitlists. No rotating providers. No rushing you out the door.</p>
+      <p class="supporting">Telehealth across 32 states<span>·</span>In-person, Corona CA<span>·</span>Same-week appointments</p>
+      <div class="hero-ctas">
+        <a href="#schedule" class="btn btn-violet">Schedule an Evaluation →</a>
+        <a href="tel:9518248580" class="btn btn-ghost">(951) 824-8580</a>
+      </div>
+      <div class="hero-proof">
+        <div class="proof-item"><strong>Board-Cert</strong><span>Psychiatrist</span></div>
+        <div class="proof-item"><strong>32</strong><span>States</span></div>
+        <div class="proof-item"><strong>Same-Week</strong><span>Appointments</span></div>
+        <div class="proof-item"><strong>1 Doctor</strong><span>Always</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MARQUEE ========== -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>CONCIERGE PSYCHIATRY</span><span class="dot">◆</span>
+    <span>TREATMENT-RESISTANT DEPRESSION</span><span class="dot">◆</span>
+    <span>ANXIETY &amp; BURNOUT</span><span class="dot">◆</span>
+    <span>PTSD &amp; TRAUMA</span><span class="dot">◆</span>
+    <span>ADHD</span><span class="dot">◆</span>
+    <span>TELEHEALTH IN 32 STATES</span><span class="dot">◆</span>
+    <span>CONCIERGE PSYCHIATRY</span><span class="dot">◆</span>
+    <span>TREATMENT-RESISTANT DEPRESSION</span><span class="dot">◆</span>
+    <span>ANXIETY &amp; BURNOUT</span><span class="dot">◆</span>
+    <span>PTSD &amp; TRAUMA</span><span class="dot">◆</span>
+    <span>ADHD</span><span class="dot">◆</span>
+    <span>TELEHEALTH IN 32 STATES</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- ========== PROBLEM (lavender) ========== -->
+<section class="shift" id="problem">
+  <div class="wrap">
+    <div class="eyebrow reveal">Why Most Psychiatry Fails</div>
+    <h2 class="reveal">A 15-minute med check is <em>not psychiatric care.</em></h2>
+    <div class="stats reveal">
+      <div class="stat"><div class="num"><strong>15</strong>min</div><div class="lbl">Average Psych Visit</div></div>
+      <div class="stat"><div class="num"><strong>3</strong>mo</div><div class="lbl">Between Appointments</div></div>
+      <div class="stat"><div class="num"><strong>0</strong></div><div class="lbl">Questions Answered</div></div>
+    </div>
+    <div class="prose reveal">
+      <p>Most people who finally make it to a psychiatrist leave with a prescription and a follow-up in three months. What they do not get is an answer to the question underneath the symptoms: <strong>why is this happening, and what actually needs to change?</strong></p>
+      <p>At LUMUS, we practice differently. <strong>Appointments are longer. The relationship is continuous.</strong> And the work goes deeper than deciding which milligram to try next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PHILOSOPHY (services-style deep-violet cards) ========== -->
+<section class="services" id="philosophy">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow reveal">Treatment Philosophy</div>
+      <h2 class="reveal">Getting to the root.<br>Not just managing the branches.</h2>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01 — Root Cause</div>
+        <h3>Root cause over symptom suppression</h3>
+        <p>Symptoms are signals, not the problem. Depression, anxiety, burnout — these are the mind communicating that something is out of alignment. We ask <em>why</em>, not just <em>what</em>.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02 — Developmental</div>
+        <h3>Your present is shaped by your past</h3>
+        <p>We take a developmental lens to your history. Understanding the emotional and behavioral patterns that formed early and are still running in the background. Your present is shaped by your past. We look at both.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03 — Minimal Dose</div>
+        <h3>Medication is a tool, not a treatment plan</h3>
+        <p>Medication, when it is the right tool, is prescribed at the minimum effective dose that allows deeper work to happen. It is never the destination. For many patients, it is not needed at all.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== APPROACH (experience-style sticky steps) ========== -->
+<section class="experience" id="approach">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow reveal">How We Work</div>
+      <h2 class="reveal">A full toolkit. Applied with <em>precision.</em></h2>
+    </div>
+    <div class="exp-split">
+      <div class="exp-photo-col">
+        <div class="exp-photo reveal">
+          <img src="../images/Use AI Image Apr 14, 2026, 16_54_13.jpeg" alt="Finding peace through concierge psychiatry" />
+          <div class="tag">Evidence-Based Care</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step-card reveal">
+          <div class="n">01</div>
+          <div class="txt">
+            <h3>Psychodynamic &amp; Relational Therapy</h3>
+            <p>Understanding unconscious patterns, relational history, and developmental origins. The therapeutic relationship itself as a vehicle for healing attachment wounds.</p>
+          </div>
+        </div>
+        <div class="step-card reveal">
+          <div class="n">02</div>
+          <div class="txt">
+            <h3>IFS &amp; EMDR</h3>
+            <p>Internal Family Systems — working with the different parts of yourself in conflict. EMDR — processing trauma stored in the body and nervous system.</p>
+          </div>
+        </div>
+        <div class="step-card reveal">
+          <div class="n">03</div>
+          <div class="txt">
+            <h3>CBT, DBT &amp; Somatic Work</h3>
+            <p>Structured cognitive-behavioral and dialectical approaches. Nervous system regulation. Body-based approaches to trauma, anxiety, and mindfulness-based practice.</p>
+          </div>
+        </div>
+        <div class="step-card reveal">
+          <div class="n">04</div>
+          <div class="txt">
+            <h3>Integrative Medication Management</h3>
+            <p>When medication is the right tool, it is prescribed at the minimum effective dose. Never the first solution. Never the only one. Always part of a larger, considered plan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHO THIS IS FOR (trust-style warm section) ========== -->
+<section class="trust" id="who">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow reveal">Who We See</div>
+      <h2 class="reveal">If any of this sounds like you,<br>you are in the <em>right place.</em></h2>
+    </div>
+    <!-- Who cards in white card style like live site team section -->
+    <div class="cards" style="margin-bottom:0">
+      <div class="card reveal">
+        <div class="num">Burnout</div>
+        <h3>Burnout &amp; Exhaustion</h3>
+        <p>High-functioning professionals who have run on empty for so long they have lost the thread back to themselves. You are still performing. You have stopped feeling.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">Recovery</div>
+        <h3>Narcissistic &amp; Borderline Relationship Survivors</h3>
+        <p>You know what happened. What you need now is to process it with someone who understands the specific damage — and does not minimize it.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">Identity</div>
+        <h3>People-Pleasers &amp; Empaths</h3>
+        <p>You have spent your life attuned to everyone else's needs. Your own are unfamiliar territory. This is the work of learning who you are.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">Neurodivergence</div>
+        <h3>Late-Diagnosed ADHD</h3>
+        <p>You spent decades being told you were not trying hard enough. The diagnosis changed the story. Now the work is grieving the years you lost.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">Connection</div>
+        <h3>Professionals Who Cannot Connect</h3>
+        <p>Successful by every external measure. Disconnected from partners, children, sense of meaning. The career worked. Something else did not.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">Depth</div>
+        <h3>Treatment-Resistant Depression &amp; Anxiety</h3>
+        <p>You have tried medication. You have tried therapy. Something helped, temporarily. You are ready to go deeper than what you have already tried.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DR. GARCIA (team-style warm section) ========== -->
+<section class="trust" id="doctor" style="padding-top:40px">
+  <div class="wrap">
+    <div class="team reveal">
+      <div class="team-photo">
+        <img src="../images/IMG_0575.jpg" alt="Dr. Michael Garcia, M.D." />
+      </div>
+      <div class="team-copy">
+        <div class="eyebrow">Your Psychiatrist</div>
+        <h3>Dr. Garcia, MD</h3>
+        <p>Dr. Garcia is a double board-certified psychiatrist in adult psychiatry and child and adolescent psychiatry. She completed advanced training in psychodynamic and psychoanalytic approaches alongside medical training.</p>
+        <p>She founded LUMUS on a specific conviction: the standard psychiatric model — brief visits, broad prescriptions, minimal relationship — was not delivering what patients needed. <strong>Continuity, depth, and time are not luxuries in psychiatric care. They are the mechanism.</strong></p>
+        <div class="credentials">
+          <div class="credential">Board-Certified, Adult Psychiatry (ABPN)</div>
+          <div class="credential">Board-Certified, Child &amp; Adolescent Psychiatry (ABPN)</div>
+          <div class="credential">Advanced psychodynamic and psychoanalytic training</div>
+          <div class="credential">EMDR trained</div>
+          <div class="credential">Founder &amp; Medical Director, LUMUS Mind</div>
+          <div class="credential">Telehealth available in 32 states</div>
+        </div>
+        <div class="sig">Dr. Michael Garcia, M.D.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHAT TO EXPECT (experience-style) ========== -->
+<section class="experience" id="process">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow reveal">The Process</div>
+      <h2 class="reveal">What working with Dr. Garcia <em>looks like.</em></h2>
+    </div>
+    <div class="exp-split">
+      <div class="exp-photo-col">
+        <div class="exp-photo reveal">
+          <img src="../images/Use AI Image Apr 14, 2026, 16_55_56.png" alt="Patient at peace" />
+          <div class="tag">A Breakthrough, Not a Band-Aid</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step-card reveal">
+          <div class="n">01</div>
+          <div class="txt">
+            <h3>Psychiatric Evaluation</h3>
+            <div class="meta">60 min · $397</div>
+            <p>A comprehensive assessment of your history, symptoms, current functioning, and goals. Not a checklist. A real conversation. Dr. Garcia will develop a preliminary formulation and treatment direction by the end of the visit.</p>
+          </div>
+        </div>
+        <div class="step-card reveal">
+          <div class="n">02</div>
+          <div class="txt">
+            <h3>Collaborative Treatment Planning</h3>
+            <p>Based on the evaluation, Dr. Garcia will recommend a treatment approach — which modalities, what cadence, and whether medication has a role. You decide together what fits your life.</p>
+          </div>
+        </div>
+        <div class="step-card reveal">
+          <div class="n">03</div>
+          <div class="txt">
+            <h3>Ongoing Visits</h3>
+            <div class="meta">30–40 min · $199–$250</div>
+            <p>Regular appointments at the frequency your treatment requires. Some patients need weekly contact early on. Some stabilize into monthly check-ins. The schedule follows the clinical need.</p>
+          </div>
+        </div>
+        <div class="step-card reveal">
+          <div class="n">04</div>
+          <div class="txt">
+            <h3>Continuity — Always</h3>
+            <p>You see Dr. Garcia. Every time. No residents, no handoffs, no starting over with someone new. Your history stays with one provider who knows it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="eyebrow reveal">Scheduling and Fees</div>
+    <h2 class="reveal">Transparent pricing. No surprises.</h2>
+    <div class="pricing-note reveal">LUMUS is a private, cash-pay practice. We do not bill insurance directly. Superbills are available for qualifying services for out-of-network reimbursement.</div>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div><h4>Psychiatric Evaluation</h4><div class="dur">60 minutes</div></div>
+        <div class="price">$397</div>
+      </div>
+      <div class="pricing-card">
+        <div><h4>Psychiatric Follow-Up</h4><div class="dur">30 minutes</div></div>
+        <div class="price">$250</div>
+      </div>
+      <div class="pricing-card">
+        <div><h4>Psychotherapy Session</h4><div class="dur">60 minutes</div></div>
+        <div class="price">$350</div>
+      </div>
+      <div class="pricing-card">
+        <div><h4>Telehealth Available</h4><div class="dur">All 32 states</div></div>
+        <div class="price" style="font-size:1rem;color:rgba(250,250,247,.5)">Same rates</div>
+      </div>
+    </div>
+    <div class="membership-box reveal">
+      <h4>LUMUS Luminary Subscription</h4>
+      <p>Includes 6 integration sessions, 2 psychiatric follow-ups, and priority scheduling for <strong style="color:var(--cyan)">$325/month</strong>. Ask about membership eligibility at your first visit.</p>
+    </div>
+    <div class="pricing-cta reveal">
+      <a href="#schedule" class="btn btn-violet">Schedule Your Evaluation →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINAL CTA — with atmospheric background ========== -->
+<section class="closing" id="schedule">
+  <div class="closing-bg">
+    <img src="../images/Gemini_Generated_Image_fsjcaxfsjcaxfsjc.png" alt="" />
+  </div>
+  <div class="wrap">
+    <h2 class="reveal">You have spent long enough understanding your symptoms. It is time to <em>understand yourself.</em></h2>
+    <p class="subtext reveal">Same-week evaluations available. Telehealth across 32 states. In-person in Corona, CA.</p>
+    <div class="closing-ctas reveal">
+      <a href="#" class="btn btn-violet">Schedule an Evaluation →</a>
+      <a href="tel:9518248580" class="btn btn-ghost">Call (951) 824-8580</a>
+    </div>
+    <p class="location reveal">284 Dupont Street Suite 130, Corona, CA 92879<br><a href="mailto:contact@lumusmind.com">contact@lumusmind.com</a></p>
+  </div>
+</section>
+
+<!-- ========== EMERGENCY DISCLAIMER ========== -->
+<div class="disclaimer">
+  <div class="wrap">
+    <div class="icon">⚠</div>
+    <h4>Lumus does not provide emergency services.</h4>
+    <p>If you or someone you know is experiencing a mental health or medical emergency, please call <a href="tel:911">911</a>, go to your nearest emergency department, or contact the <strong>988 Suicide &amp; Crisis Lifeline</strong> by calling or texting <a href="tel:988">988</a>. The Crisis Text Line is also available 24/7 — text <strong>HOME</strong> to <a href="sms:741741">741741</a>.</p>
+  </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="wrap">
+    <div class="flogo">
+      <img src="../logos/logo-brain.png" alt="LUMUS" width="28" height="28" />
+      <span>Lumus</span>
+    </div>
+    <p>&copy; 2026 Lumus Mind · All rights reserved</p>
+  </div>
+</footer>
+
+<!-- ========== FLOATING CTA ========== -->
+<a href="#schedule" class="btn btn-violet floating-cta" id="floatingCta">Book Free Consult →</a>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+// Lenis smooth scroll
+const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+requestAnimationFrame(raf);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Floating CTA
+const floatingCta = document.getElementById('floatingCta');
+ScrollTrigger.create({
+  start: 600,
+  onUpdate: (self) => {
+    floatingCta.classList.toggle('visible', self.scroll() > 600);
+  }
+});
+
+// Hero entrance
+const htl = gsap.timeline({ defaults: { ease: 'power3.out' }});
+gsap.set('.hero h1', { opacity: 0, y: 30 });
+gsap.set('.hero .sub', { opacity: 0, y: 20 });
+gsap.set('.hero .supporting', { opacity: 0 });
+gsap.set('.hero-ctas', { opacity: 0, y: 20 });
+gsap.set('.hero-proof', { opacity: 0, y: 16 });
+
+htl
+  .to('.hero-kicker', { opacity: 1, duration: .6, delay: .3 })
+  .to('.hero h1', { opacity: 1, y: 0, duration: .8 }, '-=.3')
+  .to('.hero .sub', { opacity: 1, y: 0, duration: .7 }, '-=.5')
+  .to('.hero .supporting', { opacity: 1, duration: .5 }, '-=.4')
+  .to('.hero-ctas', { opacity: 1, y: 0, duration: .6 }, '-=.3')
+  .to('.hero-proof', { opacity: 1, y: 0, duration: .6 }, '-=.3');
+
+// Subtle parallax on hero bg
+gsap.to('.hero-bg img', {
+  yPercent: 15,
+  ease: 'none',
+  scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+});
+
+// Scroll reveals
+document.querySelectorAll('.reveal').forEach((el) => {
+  gsap.to(el, {
+    opacity: 1, y: 0,
+    duration: .7,
+    ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  });
+});
+
+// Stats counter animation
+document.querySelectorAll('.stat .num strong').forEach((el) => {
+  const val = parseInt(el.textContent);
+  if (!isNaN(val)) {
+    gsap.from(el, {
+      textContent: 0,
+      duration: 1.5,
+      ease: 'power2.out',
+      snap: { textContent: 1 },
+      scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+    });
+  }
+});
+
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: -80 }); }
+  });
+});
+</script>
+
+</body>
+</html>
