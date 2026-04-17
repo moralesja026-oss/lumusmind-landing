@@ -114,12 +114,73 @@ section{position:relative;padding:120px 0}
 
 /* ============ SHIFT (lavender section) ============ */
 .shift{background:var(--lavender);color:var(--ink)}
-.shift h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5.3vw,4.4rem);line-height:1.02;letter-spacing:-.025em;max-width:18ch;margin-bottom:56px}
+.shift h2{font-family:"Space Grotesk",system-ui;font-weight:400;font-size:clamp(2.2rem,5.3vw,4.4rem);line-height:1.02;letter-spacing:-.025em;max-width:18ch;margin-bottom:28px}
 .shift h2 em{font-style:normal;font-weight:500}
 .shift .eyebrow{color:var(--deep-violet)}
-.shift .prose{max-width:620px;font-size:clamp(16px,1.3vw,18px);color:rgba(13,13,13,.78)}
-.shift .prose p+p{margin-top:20px}
-.stats{display:grid;grid-template-columns:1fr;gap:24px;margin:56px 0 64px;border-top:1px solid rgba(27,17,69,.15);padding-top:44px}
+.shift .intro{max-width:620px;font-size:clamp(16px,1.3vw,18px);color:rgba(13,13,13,.7);line-height:1.65}
+
+/* Them vs Us comparison */
+.comparison{margin-top:72px}
+.comparison-head{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+@media(max-width:760px){.comparison-head{grid-template-columns:1fr}}
+.comparison-label{padding:22px 28px;border-radius:14px 14px 0 0;display:flex;align-items:center;gap:14px}
+.comparison-label .tag{font-family:"Michroma",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase}
+.comparison-label h3{font-family:"Space Grotesk",system-ui;font-weight:500;font-size:clamp(1.3rem,2.2vw,1.9rem);letter-spacing:-.015em;line-height:1.1}
+.col-them{background:rgba(13,13,13,.06);color:rgba(13,13,13,.55)}
+.col-them .tag{color:rgba(13,13,13,.4)}
+.col-us{background:linear-gradient(135deg,var(--deep-violet),#3A2280);color:#fff;position:relative;overflow:hidden}
+.col-us::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--violet-deep))}
+.col-us .tag{color:var(--cyan-soft)}
+.comparison-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.comparison-rows{grid-template-columns:1fr}}
+.comp-col{display:flex;flex-direction:column;gap:10px}
+.comp-row{padding:20px 24px;border-radius:10px;display:flex;align-items:flex-start;gap:14px;line-height:1.5;font-size:15.5px;min-height:86px;position:relative;cursor:default;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease,background .3s ease,border-color .3s ease,opacity .4s ease;will-change:transform}
+.comp-row .icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;margin-top:1px;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease}
+.comp-them{background:#fff;color:rgba(13,13,13,.55);border:1px solid rgba(13,13,13,.06)}
+.comp-them .icon{background:rgba(13,13,13,.08);color:rgba(13,13,13,.45)}
+.comp-them strong{font-weight:500;color:rgba(13,13,13,.7)}
+.comp-us{background:#fff;color:rgba(13,13,13,.85);border:1px solid rgba(139,92,255,.2);box-shadow:0 8px 24px -12px rgba(139,92,255,.2);overflow:hidden}
+.comp-us::before{content:"";position:absolute;inset:0;background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(139,92,255,.15),transparent 50%);opacity:0;transition:opacity .4s ease;pointer-events:none;z-index:0}
+.comp-us:hover::before{opacity:1}
+.comp-us > *{position:relative;z-index:1}
+.comp-us .icon{background:linear-gradient(135deg,var(--violet),var(--violet-deep));color:#fff;box-shadow:0 4px 12px -4px rgba(139,92,255,.5)}
+.comp-us strong{font-weight:600;color:var(--deep-violet)}
+
+/* Paired hover — when hovering a row, highlight its matching partner */
+.comp-row.paired-active{transform:translateY(-3px)}
+.comp-them.paired-active{background:#faf8ff;border-color:rgba(139,92,255,.15);color:rgba(13,13,13,.75)}
+.comp-them.paired-active strong{color:var(--deep-violet)}
+.comp-them.paired-active .icon{background:rgba(139,92,255,.15);color:var(--violet)}
+.comp-us.paired-active{transform:translateY(-3px);box-shadow:0 20px 40px -16px rgba(139,92,255,.35);border-color:rgba(139,92,255,.4)}
+.comp-us.paired-active .icon{transform:scale(1.12) rotate(6deg);box-shadow:0 8px 20px -4px rgba(139,92,255,.6)}
+
+/* Connecting line between paired rows (desktop only) */
+@media(min-width:761px){
+  .comp-row.paired-active::after{content:"";position:absolute;top:50%;width:24px;height:1px;background:linear-gradient(90deg,var(--violet),transparent);pointer-events:none;animation:lineFadeIn .4s ease}
+  .comp-them.paired-active::after{right:-18px;background:linear-gradient(90deg,rgba(139,92,255,.6),transparent)}
+  .comp-us.paired-active::after{left:-18px;background:linear-gradient(270deg,rgba(139,92,255,.6),transparent)}
+}
+@keyframes lineFadeIn{from{opacity:0;width:0}to{opacity:1;width:24px}}
+
+/* Initial scroll-in states */
+.comp-them{opacity:0;transform:translateX(-24px)}
+.comp-us{opacity:0;transform:translateX(24px)}
+.comp-them.in-view{opacity:1;transform:translateX(0)}
+.comp-us.in-view{opacity:1;transform:translateX(0)}
+
+@media(max-width:760px){
+  .comparison-label{border-radius:14px}
+  .comp-col+.comp-col{margin-top:16px}
+  .comp-us{border-color:rgba(139,92,255,.35)}
+  .comp-them,.comp-us{transform:translateY(24px)}
+  .comp-them.in-view,.comp-us.in-view{transform:translateY(0)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .comp-them,.comp-us{opacity:1;transform:none;transition:none}
+}
+
+.stats{display:grid;grid-template-columns:1fr;gap:24px;margin:72px 0 0;border-top:1px solid rgba(27,17,69,.15);padding-top:44px}
 @media(min-width:760px){.stats{grid-template-columns:repeat(3,1fr);gap:56px}}
 .stat .num{font-family:"Space Grotesk",system-ui;font-weight:300;font-size:clamp(2.6rem,5vw,4rem);line-height:1;margin-bottom:10px;color:var(--deep-violet)}
 .stat .num strong{font-weight:500}
@@ -319,19 +380,90 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
   </div>
 </div>
 
-<!-- ========== PROBLEM (lavender) ========== -->
+<!-- ========== PROBLEM — Them vs Us comparison ========== -->
 <section class="shift" id="problem">
   <div class="wrap">
     <div class="eyebrow reveal">Why Most Psychiatry Fails</div>
     <h2 class="reveal">A 15-minute med check is <em>not psychiatric care.</em></h2>
-    <div class="stats reveal">
-      <div class="stat"><div class="num"><strong>15</strong>min</div><div class="lbl">Average Psych Visit</div></div>
-      <div class="stat"><div class="num"><strong>3</strong>mo</div><div class="lbl">Between Appointments</div></div>
-      <div class="stat"><div class="num"><strong>0</strong></div><div class="lbl">Questions Answered</div></div>
+    <p class="intro reveal">Most psychiatric care was built around volume — enough patients, short enough visits, broad enough prescriptions to keep people functional. We built LUMUS to practice differently. Here is what that looks like.</p>
+
+    <div class="comparison reveal">
+      <div class="comparison-head">
+        <div class="comparison-label col-them">
+          <div>
+            <div class="tag">The Standard Model</div>
+            <h3>Traditional Psychiatry</h3>
+          </div>
+        </div>
+        <div class="comparison-label col-us">
+          <div>
+            <div class="tag">The Concierge Model</div>
+            <h3>LUMUS</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="comparison-rows">
+        <div class="comp-col">
+          <div class="comp-row comp-them" data-pair="1">
+            <div class="icon">✕</div>
+            <div><strong>15-minute med checks.</strong> Enough time to refill, not enough to actually talk.</div>
+          </div>
+          <div class="comp-row comp-them" data-pair="2">
+            <div class="icon">✕</div>
+            <div><strong>Three months between visits.</strong> By the time you are seen again, life has already moved on.</div>
+          </div>
+          <div class="comp-row comp-them" data-pair="3">
+            <div class="icon">✕</div>
+            <div><strong>Rotating providers.</strong> Tell your story from the beginning. Every time.</div>
+          </div>
+          <div class="comp-row comp-them" data-pair="4">
+            <div class="icon">✕</div>
+            <div><strong>Prescription first.</strong> A medication for every symptom. No space for why.</div>
+          </div>
+          <div class="comp-row comp-them" data-pair="5">
+            <div class="icon">✕</div>
+            <div><strong>Voicemail black hole.</strong> Reach a real person? Not likely.</div>
+          </div>
+          <div class="comp-row comp-them" data-pair="6">
+            <div class="icon">✕</div>
+            <div><strong>A chart, not a person.</strong> You are a patient number on a 200-person panel.</div>
+          </div>
+        </div>
+
+        <div class="comp-col">
+          <div class="comp-row comp-us" data-pair="1">
+            <div class="icon">✓</div>
+            <div><strong>60-minute evaluations, 30–40 minute follow-ups.</strong> Time to actually understand what is happening.</div>
+          </div>
+          <div class="comp-row comp-us" data-pair="2">
+            <div class="icon">✓</div>
+            <div><strong>Same-week appointments.</strong> Cadence follows clinical need — weekly, biweekly, or monthly.</div>
+          </div>
+          <div class="comp-row comp-us" data-pair="3">
+            <div class="icon">✓</div>
+            <div><strong>Dr. Garcia. Every time.</strong> One psychiatrist who knows your full story.</div>
+          </div>
+          <div class="comp-row comp-us" data-pair="4">
+            <div class="icon">✓</div>
+            <div><strong>Root cause first.</strong> Medication is a tool — not the plan. For many patients, not needed at all.</div>
+          </div>
+          <div class="comp-row comp-us" data-pair="5">
+            <div class="icon">✓</div>
+            <div><strong>Direct access.</strong> A small, intentional panel means you can actually reach us.</div>
+          </div>
+          <div class="comp-row comp-us" data-pair="6">
+            <div class="icon">✓</div>
+            <div><strong>Known by name.</strong> Seen as the person you are — not the diagnosis you carry.</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="prose reveal">
-      <p>Most people who finally make it to a psychiatrist leave with a prescription and a follow-up in three months. What they do not get is an answer to the question underneath the symptoms: <strong>why is this happening, and what actually needs to change?</strong></p>
-      <p>At LUMUS, we practice differently. <strong>Appointments are longer. The relationship is continuous.</strong> And the work goes deeper than deciding which milligram to try next.</p>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="num"><strong>60</strong>min</div><div class="lbl">Psychiatric Evaluations</div></div>
+      <div class="stat"><div class="num"><strong>1</strong></div><div class="lbl">Psychiatrist · Always</div></div>
+      <div class="stat"><div class="num"><strong>32</strong></div><div class="lbl">States · Telehealth</div></div>
     </div>
   </div>
 </section>
@@ -669,6 +801,72 @@ document.querySelectorAll('.stat .num strong').forEach((el) => {
     });
   }
 });
+
+// ============ COMPARISON — interactive scroll + cursor + paired hover ============
+(() => {
+  const rows = document.querySelectorAll('.comparison .comp-row');
+  if (!rows.length) return;
+
+  // 1) Scroll-triggered staggered reveal — each pair reveals together as user scrolls
+  // Group rows by data-pair so left+right in same pair animate simultaneously
+  const pairs = {};
+  rows.forEach(r => {
+    const p = r.dataset.pair;
+    if (!pairs[p]) pairs[p] = [];
+    pairs[p].push(r);
+  });
+
+  Object.keys(pairs).forEach((p, i) => {
+    const pair = pairs[p];
+    ScrollTrigger.create({
+      trigger: pair[0],
+      start: 'top 88%',
+      once: true,
+      onEnter: () => {
+        pair.forEach(r => {
+          // Small stagger between them-and-us within same pair for a wave effect
+          setTimeout(() => r.classList.add('in-view'), r.classList.contains('comp-us') ? 90 : 0);
+        });
+      }
+    });
+  });
+
+  // 2) Paired hover — hovering a row highlights its matching partner
+  rows.forEach(row => {
+    row.addEventListener('mouseenter', () => {
+      const pairNum = row.dataset.pair;
+      document.querySelectorAll(`.comp-row[data-pair="${pairNum}"]`).forEach(r => r.classList.add('paired-active'));
+    });
+    row.addEventListener('mouseleave', () => {
+      const pairNum = row.dataset.pair;
+      document.querySelectorAll(`.comp-row[data-pair="${pairNum}"]`).forEach(r => r.classList.remove('paired-active'));
+    });
+  });
+
+  // 3) Cursor spotlight — follow cursor on "us" cards with CSS custom properties
+  document.querySelectorAll('.comp-us').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width) * 100;
+      const my = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', mx + '%');
+      card.style.setProperty('--my', my + '%');
+    });
+  });
+
+  // 4) Subtle 3D tilt on us-cards
+  document.querySelectorAll('.comp-us').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `translateY(-3px) perspective(800px) rotateX(${(-py * 3).toFixed(2)}deg) rotateY(${(px * 4).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+})();
 
 // Smooth anchor scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => {
