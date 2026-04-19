@@ -58,7 +58,9 @@ section{position:relative;padding:120px 0}
 .reveal{opacity:0;transform:translateY(28px)}
 
 /* ============ NAV — match live site ============ */
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:difference;transition:all .4s ease}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;transition:background .4s ease,padding .4s ease,backdrop-filter .4s ease}
+.nav.scrolled{background:rgba(10,11,26,.88);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);padding:14px 28px;border-bottom:1px solid rgba(139,92,255,.1)}
+@media(min-width:900px){.nav.scrolled{padding:14px 56px}}
 .nav .mark{display:inline-flex;align-items:center}
 .nav .mark img{width:auto;height:44px;object-fit:contain}
 .nav ul{display:none;gap:36px;list-style:none;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
@@ -73,7 +75,7 @@ section{position:relative;padding:120px 0}
 .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:#000}
 .hero-bg{position:absolute;top:0;right:-30px;bottom:0;width:65%;z-index:0;overflow:hidden}
 @media(min-width:1200px){.hero-bg{width:60%}}
-.hero-bg img{width:105%;height:100%;object-fit:cover;object-position:45% 75%;position:absolute;bottom:0;right:2%}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:45% 45%;position:absolute;bottom:0;right:0;transform:scale(.75);transform-origin:right bottom}
 /* Gradient overlays — fade image into black on left edge and bottom */
 .hero-bg::before{content:"";position:absolute;inset:0;z-index:1;background:
   linear-gradient(90deg,#000 0%,rgba(0,0,0,.65) 25%,transparent 50%),
@@ -90,8 +92,11 @@ section{position:relative;padding:120px 0}
 .hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.4em;color:var(--cyan);margin-bottom:24px;padding:8px 16px 8px 14px;border:1px solid rgba(79,216,255,.3);border-radius:999px;background:rgba(79,216,255,.05);backdrop-filter:blur(8px);opacity:0}
 .hero-kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulseDot 2.2s ease-in-out infinite}
 @keyframes pulseDot{0%,100%{opacity:.4}50%{opacity:1}}
-.hero h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:300;line-height:.98;letter-spacing:-.03em;font-size:clamp(2.6rem,6.8vw,5.2rem);color:#fff;opacity:0}
+.hero h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:300;line-height:.98;letter-spacing:-.03em;font-size:clamp(2.6rem,6.8vw,5.2rem);color:#fff}
 .hero h1 .grad-text{font-weight:500}
+.hero h1 .char{display:inline-block;opacity:0;transform:translateY(.55em) rotateX(40deg);transform-origin:50% 80%;will-change:transform,opacity}
+.hero h1 .char.space{width:.25em}
+.hero h1 .grad-text .char{background:linear-gradient(100deg,var(--cyan) 0%,var(--violet) 55%,var(--violet-deep) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .hero .sub{margin:24px 0 0;max-width:500px;font-size:clamp(15.5px,1.2vw,17.5px);color:rgba(250,250,247,.72);opacity:0;line-height:1.6;font-style:italic}
 .hero .supporting{margin-top:14px;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,250,247,.4);opacity:0}
 .hero .supporting span{margin:0 10px;opacity:.4}
@@ -313,7 +318,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 }
 @media(prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none}
-  .hero-kicker,.hero h1,.hero .sub,.hero .supporting,.hero-ctas,.hero-proof{opacity:1}
+  .hero-kicker,.hero h1,.hero .sub,.hero .supporting,.hero-ctas,.hero-proof,.hero h1 .char{opacity:1;transform:none}
   .marquee-track{animation:none}
 }
 </style>
@@ -746,18 +751,50 @@ gsap.ticker.lagSmoothing(0);
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Floating CTA
+// Floating CTA + nav scrolled state
 const floatingCta = document.getElementById('floatingCta');
+const navEl = document.getElementById('nav');
 ScrollTrigger.create({
-  start: 600,
+  start: 80,
   onUpdate: (self) => {
-    floatingCta.classList.toggle('visible', self.scroll() > 600);
+    const scrolled = self.scroll();
+    navEl.classList.toggle('scrolled', scrolled > 80);
+    floatingCta.classList.toggle('visible', scrolled > 600);
   }
 });
 
+// Split hero headline into per-letter spans (preserves <br>, nested spans like .grad-text)
+function splitHeadline(el) {
+  const walk = (node, parent) => {
+    [...node.childNodes].forEach(child => {
+      if (child.nodeType === 3) {
+        // Text node — split into chars
+        const text = child.textContent;
+        [...text].forEach(ch => {
+          const span = document.createElement('span');
+          span.className = 'char' + (ch === ' ' ? ' space' : '');
+          span.textContent = ch === ' ' ? '\u00A0' : ch;
+          parent.appendChild(span);
+        });
+      } else if (child.nodeName === 'BR') {
+        parent.appendChild(document.createElement('br'));
+      } else if (child.nodeType === 1) {
+        // Element — preserve it (e.g. .grad-text), recurse into it
+        const cloned = child.cloneNode(false);
+        parent.appendChild(cloned);
+        walk(child, cloned);
+      }
+    });
+  };
+  const frag = document.createElement('div');
+  walk(el, frag);
+  el.innerHTML = frag.innerHTML;
+}
+const heroH1 = document.querySelector('.hero h1');
+if (heroH1) splitHeadline(heroH1);
+
 // Hero entrance
 const htl = gsap.timeline({ defaults: { ease: 'power3.out' }});
-gsap.set('.hero h1', { opacity: 0, y: 30 });
 gsap.set('.hero .sub', { opacity: 0, y: 20 });
 gsap.set('.hero .supporting', { opacity: 0 });
 gsap.set('.hero-ctas', { opacity: 0, y: 20 });
@@ -765,8 +802,13 @@ gsap.set('.hero-proof', { opacity: 0, y: 16 });
 
 htl
   .to('.hero-kicker', { opacity: 1, duration: .6, delay: .3 })
-  .to('.hero h1', { opacity: 1, y: 0, duration: .8 }, '-=.3')
-  .to('.hero .sub', { opacity: 1, y: 0, duration: .7 }, '-=.5')
+  .to('.hero h1 .char', {
+    opacity: 1, y: 0, rotateX: 0,
+    duration: .75,
+    stagger: .028,
+    ease: 'power3.out'
+  }, '-=.35')
+  .to('.hero .sub', { opacity: 1, y: 0, duration: .7 }, '-=.35')
   .to('.hero .supporting', { opacity: 1, duration: .5 }, '-=.4')
   .to('.hero-ctas', { opacity: 1, y: 0, duration: .6 }, '-=.3')
   .to('.hero-proof', { opacity: 1, y: 0, duration: .6 }, '-=.3');
