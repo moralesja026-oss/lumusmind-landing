@@ -56,6 +56,7 @@ section{position:relative;padding:120px 0}
 
 /* Reveal */
 .reveal{opacity:0;transform:translateY(28px)}
+picture{display:contents}
 
 /* ============ IMAGE PLACEHOLDER SLOTS ============
    Wraps an <img>. If the image is missing, a labeled gradient appears.
@@ -356,7 +357,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== NAV ========== -->
 <nav class="nav" id="nav">
   <a class="mark" href="#top">
-    <img src="../logos/logo-brain.png" alt="LUMUS" width="36" height="36" />
+    <img src="../logos/logo-brain-opt.png" alt="LUMUS" width="36" height="36" />
   </a>
   <ul>
     <li><a href="#philosophy">Philosophy</a></li>
@@ -373,7 +374,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== SECTION 1 — HERO ========== -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <img src="../images/cap-hero-objects.jpg" alt="A child's drawing, sneakers, and backpack — the quiet objects of childhood" width="1376" height="768" loading="eager" fetchpriority="high" />
+    <picture>
+      <source type="image/webp" srcset="../images/cap-hero-objects-sm.webp 768w, ../images/cap-hero-objects.webp 1376w" sizes="100vw">
+      <img src="../images/cap-hero-objects.jpg" srcset="../images/cap-hero-objects-sm.jpg 768w, ../images/cap-hero-objects.jpg 1376w" sizes="100vw" alt="A child's drawing, sneakers, and backpack — the quiet objects of childhood" width="1376" height="768" loading="eager" fetchpriority="high" decoding="async" />
+    </picture>
   </div>
   <div class="wrap">
     <div class="hero-inner">
@@ -428,7 +432,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
       </div>
       <div class="shift-photo reveal">
         <div class="img-slot" data-label="Warm child &amp; parent moment">
-          <img src="../images/cap-parent-child.jpg" alt="A warm, quiet moment between a parent and their child" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <picture>
+            <source type="image/webp" srcset="../images/cap-parent-child-sm.webp 768w, ../images/cap-parent-child.webp 1408w" sizes="(max-width:768px) 100vw, 50vw">
+            <img src="../images/cap-parent-child.jpg" srcset="../images/cap-parent-child-sm.jpg 768w, ../images/cap-parent-child.jpg 1408w" sizes="(max-width:768px) 100vw, 50vw" alt="A warm, quiet moment between a parent and their child" width="1408" height="768" loading="lazy" decoding="async" onload="this.closest('.img-slot').classList.add('has-img')" onerror="this.remove()" />
+          </picture>
         </div>
         <div class="tag">A Whole Child</div>
       </div>
@@ -488,7 +495,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
       </div>
       <div class="head-photo reveal">
         <div class="img-slot" data-label="Calm therapy room still life">
-          <img src="../images/cap-therapy-desk.jpg" alt="A quiet therapy office detail — journal, art supplies, plant" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <picture>
+            <source type="image/webp" srcset="../images/cap-therapy-desk-sm.webp 768w, ../images/cap-therapy-desk.webp 1376w" sizes="(max-width:768px) 100vw, 50vw">
+            <img src="../images/cap-therapy-desk.jpg" srcset="../images/cap-therapy-desk-sm.jpg 768w, ../images/cap-therapy-desk.jpg 1376w" sizes="(max-width:768px) 100vw, 50vw" alt="A quiet therapy office detail — journal, art supplies, plant" width="1376" height="768" loading="lazy" decoding="async" onload="this.closest('.img-slot').classList.add('has-img')" onerror="this.remove()" />
+          </picture>
         </div>
         <div class="tag">Evidence-Based Toolkit</div>
       </div>
@@ -588,7 +598,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
     </div>
     <div class="team reveal">
       <div class="team-photo">
-        <img src="../images/IMG_0575.jpg" alt="Dr. Michael Garcia, M.D." />
+        <picture>
+          <source type="image/webp" srcset="../images/dr-garcia-sm.webp 700w, ../images/dr-garcia.webp 900w" sizes="(max-width:768px) 100vw, 40vw">
+          <img src="../images/dr-garcia.jpg" srcset="../images/dr-garcia-sm.jpg 700w, ../images/dr-garcia.jpg 900w" sizes="(max-width:768px) 100vw, 40vw" alt="Dr. Michael Garcia, M.D." width="900" height="1200" loading="lazy" decoding="async" />
+        </picture>
       </div>
       <div class="team-copy">
         <div class="eyebrow">Double Board-Certified</div>
@@ -623,7 +636,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
         </div>
       </div>
       <div class="head-photo reveal">
-        <img src="../images/cap-family-drawing.jpg" alt="A child's crayon drawing of a family — the world your child is building inside." loading="lazy" />
+        <picture>
+          <source type="image/webp" srcset="../images/cap-family-drawing-sm.webp 768w, ../images/cap-family-drawing.webp 1376w" sizes="(max-width:768px) 100vw, 50vw">
+          <img src="../images/cap-family-drawing.jpg" srcset="../images/cap-family-drawing-sm.jpg 768w, ../images/cap-family-drawing.jpg 1376w" sizes="(max-width:768px) 100vw, 50vw" alt="A child's crayon drawing of a family — the world your child is building inside." width="1376" height="768" loading="lazy" decoding="async" />
+        </picture>
       </div>
     </div>
 
@@ -658,7 +674,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
       <div class="exp-photo-col">
         <div class="exp-photo reveal">
           <div class="img-slot" data-label="Adolescent on telehealth call">
-            <img src="../images/cap-telehealth.jpg" alt="An adolescent in a calm home setting during a telehealth visit" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+            <picture>
+              <source type="image/webp" srcset="../images/cap-telehealth-sm.webp 768w, ../images/cap-telehealth.webp 1408w" sizes="(max-width:768px) 100vw, 50vw">
+              <img src="../images/cap-telehealth.jpg" srcset="../images/cap-telehealth-sm.jpg 768w, ../images/cap-telehealth.jpg 1408w" sizes="(max-width:768px) 100vw, 50vw" alt="An adolescent in a calm home setting during a telehealth visit" width="1408" height="768" loading="lazy" decoding="async" onload="this.closest('.img-slot').classList.add('has-img')" onerror="this.remove()" />
+            </picture>
           </div>
           <div class="tag">A Real Clinical Picture</div>
         </div>
@@ -732,7 +751,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== SECTION 10 — FINAL CTA ========== -->
 <section class="closing" id="schedule">
   <div class="closing-bg">
-    <img src="../images/cap-window-light.jpg" alt="" loading="lazy" />
+    <picture>
+      <source type="image/webp" srcset="../images/cap-window-light-sm.webp 768w, ../images/cap-window-light.webp 1376w" sizes="100vw">
+      <img src="../images/cap-window-light.jpg" srcset="../images/cap-window-light-sm.jpg 768w, ../images/cap-window-light.jpg 1376w" sizes="100vw" alt="" width="1376" height="768" loading="lazy" decoding="async" />
+    </picture>
   </div>
   <div class="wrap">
     <h2 class="reveal">Your child is trying to tell you something. Let's figure out what it is — <em>together.</em></h2>
@@ -758,7 +780,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <footer>
   <div class="wrap">
     <div class="flogo">
-      <img src="../logos/logo-brain.png" alt="LUMUS" width="28" height="28" />
+      <img src="../logos/logo-brain-opt.png" alt="LUMUS" width="28" height="28" />
       <span>Lumus</span>
     </div>
     <p>&copy; 2026 Lumus Mind · All rights reserved</p>
