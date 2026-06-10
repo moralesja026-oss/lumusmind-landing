@@ -61,6 +61,7 @@ section{position:relative;padding:120px 0}
 .nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;transition:background .4s ease,padding .4s ease,backdrop-filter .4s ease}
 .nav.scrolled{background:rgba(10,11,26,.88);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);padding:14px 28px;border-bottom:1px solid rgba(139,92,255,.1)}
 @media(min-width:900px){.nav.scrolled{padding:14px 56px}}
+picture{display:contents}
 .nav .mark{display:inline-flex;align-items:center}
 .nav .mark img{width:auto;height:44px;object-fit:contain}
 .nav ul{display:none;gap:36px;list-style:none;font-family:"Michroma",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
@@ -75,7 +76,7 @@ section{position:relative;padding:120px 0}
 .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:#000}
 .hero-bg{position:absolute;top:0;right:-30px;bottom:0;width:65%;z-index:0;overflow:hidden}
 @media(min-width:1200px){.hero-bg{width:60%}}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:45% 45%;position:absolute;bottom:0;right:0;transform:scale(.75);transform-origin:right bottom}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;position:absolute;bottom:0;right:8%;transform:scale(.75);transform-origin:right bottom}
 /* Gradient overlays — fade image into black on left edge and bottom */
 .hero-bg::before{content:"";position:absolute;inset:0;z-index:1;background:
   linear-gradient(90deg,#000 0%,rgba(0,0,0,.65) 25%,transparent 50%),
@@ -328,7 +329,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== NAV ========== -->
 <nav class="nav" id="nav">
   <a class="mark" href="#top">
-    <img src="../logos/logo-brain.png" alt="LUMUS" width="36" height="36" />
+    <img src="../logos/logo-brain-opt.png" alt="LUMUS" width="36" height="36" />
   </a>
   <ul>
     <li><a href="#philosophy">Philosophy</a></li>
@@ -345,7 +346,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== HERO — full background portrait ========== -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <img src="../images/Gemini_Generated_Image_iwr0xdiwr0xdiwr0.png" alt="" width="1408" height="768" />
+    <picture>
+      <source type="image/webp" srcset="../images/conc-band-sm.webp 768w, ../images/conc-band.webp 1408w" sizes="100vw">
+      <img src="../images/conc-band.jpg" srcset="../images/conc-band-sm.jpg 768w, ../images/conc-band.jpg 1408w" sizes="100vw" alt="" width="1408" height="768" decoding="async" fetchpriority="high" />
+    </picture>
   </div>
   <div class="wrap">
     <div class="hero-inner">
@@ -510,7 +514,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
     <div class="exp-split">
       <div class="exp-photo-col">
         <div class="exp-photo reveal">
-          <img src="../images/Use AI Image Apr 14, 2026, 16_54_13.jpeg" alt="Finding peace through concierge psychiatry" />
+          <picture>
+            <source type="image/webp" srcset="../images/conc-peace-sm.webp 768w, ../images/conc-peace.webp 1376w" sizes="(max-width:768px) 100vw, 50vw">
+            <img src="../images/conc-peace.jpg" srcset="../images/conc-peace-sm.jpg 768w, ../images/conc-peace.jpg 1376w" sizes="(max-width:768px) 100vw, 50vw" alt="Finding peace through concierge psychiatry" width="1376" height="768" loading="lazy" decoding="async" />
+          </picture>
           <div class="tag">Evidence-Based Care</div>
         </div>
       </div>
@@ -596,7 +603,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
   <div class="wrap">
     <div class="team reveal">
       <div class="team-photo">
-        <img src="../images/IMG_0575.jpg" alt="Dr. Michael Garcia, M.D." />
+        <picture>
+          <source type="image/webp" srcset="../images/dr-garcia-sm.webp 700w, ../images/dr-garcia.webp 900w" sizes="(max-width:768px) 100vw, 40vw">
+          <img src="../images/dr-garcia.jpg" srcset="../images/dr-garcia-sm.jpg 700w, ../images/dr-garcia.jpg 900w" sizes="(max-width:768px) 100vw, 40vw" alt="Dr. Michael Garcia, M.D." width="900" height="1200" loading="lazy" decoding="async" />
+        </picture>
       </div>
       <div class="team-copy">
         <div class="eyebrow">Your Psychiatrist</div>
@@ -627,7 +637,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
     <div class="exp-split">
       <div class="exp-photo-col">
         <div class="exp-photo reveal">
-          <img src="../images/Use AI Image Apr 14, 2026, 16_55_56.png" alt="Patient at peace" />
+          <picture>
+            <source type="image/webp" srcset="../images/conc-closing-sm.webp 768w, ../images/conc-closing.webp 1376w" sizes="(max-width:768px) 100vw, 50vw">
+            <img src="../images/conc-closing.jpg" srcset="../images/conc-closing-sm.jpg 768w, ../images/conc-closing.jpg 1376w" sizes="(max-width:768px) 100vw, 50vw" alt="Patient at peace" width="1376" height="768" loading="lazy" decoding="async" />
+          </picture>
           <div class="tag">A Breakthrough, Not a Band-Aid</div>
         </div>
       </div>
@@ -704,7 +717,10 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== FINAL CTA — with atmospheric background ========== -->
 <section class="closing" id="schedule">
   <div class="closing-bg">
-    <img src="../images/Gemini_Generated_Image_fsjcaxfsjcaxfsjc.png" alt="" />
+    <picture>
+      <source type="image/webp" srcset="../images/conc-hero-sm.webp 768w, ../images/conc-hero.webp 1600w" sizes="100vw">
+      <img src="../images/conc-hero.jpg" srcset="../images/conc-hero-sm.jpg 768w, ../images/conc-hero.jpg 1600w" sizes="100vw" alt="" width="1600" height="873" loading="lazy" decoding="async" />
+    </picture>
   </div>
   <div class="wrap">
     <h2 class="reveal">You have spent long enough understanding your symptoms. It is time to <em>understand yourself.</em></h2>
@@ -730,7 +746,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <footer>
   <div class="wrap">
     <div class="flogo">
-      <img src="../logos/logo-brain.png" alt="LUMUS" width="28" height="28" />
+      <img src="../logos/logo-brain-opt.png" alt="LUMUS" width="28" height="28" />
       <span>Lumus</span>
     </div>
     <p>&copy; 2026 Lumus Mind · All rights reserved</p>
