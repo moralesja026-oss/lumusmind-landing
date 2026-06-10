@@ -61,7 +61,7 @@ section{position:relative;padding:120px 0}
    Wraps an <img>. If the image is missing, a labeled gradient appears.
    Used for sections where the user will plug in custom images later. */
 .img-slot{position:relative;background:linear-gradient(135deg,#1B1145 0%,#3A2280 50%,#6B3FE0 100%);display:flex;align-items:center;justify-content:center;border-radius:18px;overflow:hidden;color:rgba(255,255,255,.78);font-family:"Michroma",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;text-align:center;padding:32px;min-height:280px}
-.img-slot::before{content:"Image · " attr(data-label);max-width:280px;line-height:1.8;position:relative;z-index:1}
+.img-slot::before{content:"";max-width:280px;line-height:1.8;position:relative;z-index:1}
 .img-slot::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(79,216,255,.18),transparent 55%);pointer-events:none}
 .img-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease;z-index:2}
 .img-slot.has-img img{opacity:1}
@@ -373,7 +373,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== SECTION 1 — HERO ========== -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <img src="../images/Gemini_Generated_Image_8gzj288gzj288gzj.png" alt="A child's drawing, sneakers, and backpack — the quiet objects of childhood" width="1408" height="768" />
+    <img src="../images/cap-hero-objects.jpg" alt="A child's drawing, sneakers, and backpack — the quiet objects of childhood" width="1376" height="768" loading="eager" fetchpriority="high" />
   </div>
   <div class="wrap">
     <div class="hero-inner">
@@ -428,7 +428,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
       </div>
       <div class="shift-photo reveal">
         <div class="img-slot" data-label="Warm child &amp; parent moment">
-          <img src="../images/cap-different.png" alt="A warm, quiet moment between a parent and their child" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <img src="../images/cap-parent-child.jpg" alt="A warm, quiet moment between a parent and their child" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
         </div>
         <div class="tag">A Whole Child</div>
       </div>
@@ -488,7 +488,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
       </div>
       <div class="head-photo reveal">
         <div class="img-slot" data-label="Calm therapy room still life">
-          <img src="../images/cap-approach.png" alt="A quiet therapy office detail — journal, art supplies, plant" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+          <img src="../images/cap-therapy-desk.jpg" alt="A quiet therapy office detail — journal, art supplies, plant" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
         </div>
         <div class="tag">Evidence-Based Toolkit</div>
       </div>
@@ -623,7 +623,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
         </div>
       </div>
       <div class="head-photo reveal">
-        <img src="../images/Gemini_Generated_Image_hnsc75hnsc75hnsc.png" alt="A child's crayon drawing of a family — the world your child is building inside." />
+        <img src="../images/cap-family-drawing.jpg" alt="A child's crayon drawing of a family — the world your child is building inside." loading="lazy" />
       </div>
     </div>
 
@@ -658,7 +658,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
       <div class="exp-photo-col">
         <div class="exp-photo reveal">
           <div class="img-slot" data-label="Adolescent on telehealth call">
-            <img src="../images/cap-process.png" alt="An adolescent in a calm home setting during a telehealth visit" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
+            <img src="../images/cap-telehealth.jpg" alt="An adolescent in a calm home setting during a telehealth visit" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()" />
           </div>
           <div class="tag">A Real Clinical Picture</div>
         </div>
@@ -732,7 +732,7 @@ footer p{font-size:13px;color:rgba(250,250,247,.3)}
 <!-- ========== SECTION 10 — FINAL CTA ========== -->
 <section class="closing" id="schedule">
   <div class="closing-bg">
-    <img src="../images/Gemini_Generated_Image_ooagpnooagpnooag.png" alt="" />
+    <img src="../images/cap-window-light.jpg" alt="" loading="lazy" />
   </div>
   <div class="wrap">
     <h2 class="reveal">Your child is trying to tell you something. Let's figure out what it is — <em>together.</em></h2>
